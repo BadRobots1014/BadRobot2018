@@ -1,0 +1,26 @@
+# WPILib
+bin/
+build/
+dist/
+sysProps.xml
+workbench.xmi
+*.class
+*.jar
+
+# Temporary Files
+*~
+*.swp
+*.tmp
+tmp/
+
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.AppleDouble
+.LSOverride
+.Trashes
+ehthumbs.db
+Thumbs.db
