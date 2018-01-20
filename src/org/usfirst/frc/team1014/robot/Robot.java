@@ -12,7 +12,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team1014.robot.commands.AutoCommandGroup;
+import org.usfirst.frc.team1014.robot.commands.AutoDrive;
+import org.usfirst.frc.team1014.robot.commands.AutoTurn;
 import org.usfirst.frc.team1014.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1014.robot.commands.TeleDrive;
 import org.usfirst.frc.team1014.robot.subsystems.ExampleSubsystem;
 
 /**
@@ -22,11 +27,16 @@ import org.usfirst.frc.team1014.robot.subsystems.ExampleSubsystem;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobot 
+{
 	public static final ExampleSubsystem kExampleSubsystem
 			= new ExampleSubsystem();
 	public static OI m_oi;
-
+	//public static Command fowards = new AutoDrive(50, 0.3); // the autonomous command the robot should run
+	//public static Command turnClock = new AutoTurn(.5, 0.3, 1); // the autonomous command the robot should run
+	//public static Command turnCount = new AutoTurn(.5, 0.3, -1); // the autonomous command the robot should run
+	//AutoCommandGroup autoGroup;
+	public static Command tele = new TeleDrive(); // the autonomous command the robot should run
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -35,11 +45,13 @@ public class Robot extends TimedRobot {
 	 * used for any initialization code.
 	 */
 	@Override
-	public void robotInit() {
+	public void robotInit() 
+	{
 		m_oi = new OI();
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		//autoGroup = new AutoCommandGroup();
 	}
 
 	/**
@@ -48,12 +60,14 @@ public class Robot extends TimedRobot {
 	 * the robot is disabled.
 	 */
 	@Override
-	public void disabledInit() {
+	public void disabledInit() 
+	{
 
 	}
 
 	@Override
-	public void disabledPeriodic() {
+	public void disabledPeriodic() 
+	{
 		Scheduler.getInstance().run();
 	}
 
@@ -69,39 +83,33 @@ public class Robot extends TimedRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	@Override
-	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+	public void autonomousInit() 
+	{
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+		// System.out.println(AutonomousManager.pollSwitches());
+		Scheduler.getInstance().add(new AutoDrive(0.5, 0.3));
+		//Scheduler.getInstance().add(turnClock);
+		//Scheduler.getInstance().add(turnCount);
 
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
-		}
 	}
 
 	/**
 	 * This function is called periodically during autonomous.
 	 */
 	@Override
-	public void autonomousPeriodic() {
+	public void autonomousPeriodic() 
+	{
 		Scheduler.getInstance().run();
 	}
 
 	@Override
-	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (m_autonomousCommand != null) {
+	public void teleopInit() 
+	{
+		if (m_autonomousCommand != null) 
+		{
 			m_autonomousCommand.cancel();
 		}
+		Scheduler.getInstance().add(tele);
 	}
 
 	/**
