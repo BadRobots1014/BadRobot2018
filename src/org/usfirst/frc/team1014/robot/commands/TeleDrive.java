@@ -7,35 +7,43 @@
 
 package org.usfirst.frc.team1014.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team1014.robot.Robot;
+import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
 /**
- * An example command.  You can replace me with your own command.
+ * An example command. You can replace me with your own command.
  */
-public class ExampleCommand extends Command {
-	public ExampleCommand() {
-		// Use requires() here to declare subsystem dependencies
-		requires(Robot.kExampleSubsystem);
+public class TeleDrive extends Command {
+
+	private XboxController controller;
+	private Drivetrain driveTrain;
+
+	public TeleDrive(Drivetrain driveTrain, XboxController controller) {
+		this.driveTrain = driveTrain;
+		this.controller = controller;
+		requires(driveTrain);
 	}
 
-	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
 	}
 
-	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+		// Negative because top left is (-1,-1)
+		double left = -controller.getY(Hand.kLeft);
+		double right = -controller.getY(Hand.kRight);
+
+		driveTrain.directDrive(left, right);
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
 		return false;
 	}
 
-	// Called once after isFinished returns true
 	@Override
 	protected void end() {
 	}
