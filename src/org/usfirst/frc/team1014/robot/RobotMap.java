@@ -15,6 +15,8 @@ package org.usfirst.frc.team1014.robot;
  */
 public class RobotMap 
 {
-	public static final int BACK_LEFT_SPEED_CONTROLLER = 31, BACK_RIGHT_SPEED_CONTROLLER = 32, FRONT_LEFT_SPEED_CONTROLLER = 28, FRONT_RIGHT_SPEED_CONTROLLER = 33;
-	
+	public static final int BACK_LEFT_SPEED_CONTROLLER = 33; 
+	public static final int BACK_RIGHT_SPEED_CONTROLLER = 28; 
+	public static final int FRONT_LEFT_SPEED_CONTROLLER = 32; 
+	public static final int FRONT_RIGHT_SPEED_CONTROLLER = 31;	
 }

@@ -20,9 +20,13 @@ public class AutoTurn extends Command
 	public AutoTurn(double time, double power, int direction) 
 	{
 		//this.time = time * 1000000;
-		startTime = RobotController.getFPGATime();
 		this.power = power;
 		this.direction = direction;
+	}
+	
+	protected void initialize() {
+		startTime = RobotController.getFPGATime();
+		
 	}
 
 	protected void execute() 

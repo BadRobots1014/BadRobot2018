@@ -35,7 +35,7 @@ public class Robot extends TimedRobot
 	//public static Command fowards = new AutoDrive(50, 0.3); // the autonomous command the robot should run
 	//public static Command turnClock = new AutoTurn(.5, 0.3, 1); // the autonomous command the robot should run
 	//public static Command turnCount = new AutoTurn(.5, 0.3, -1); // the autonomous command the robot should run
-	//AutoCommandGroup autoGroup;
+	AutoCommandGroup autoGroup;
 	public static Command tele = new TeleDrive(); // the autonomous command the robot should run
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		//autoGroup = new AutoCommandGroup();
+		autoGroup = new AutoCommandGroup();
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class Robot extends TimedRobot
 	{
 
 		// System.out.println(AutonomousManager.pollSwitches());
-		Scheduler.getInstance().add(new AutoDrive(0.5, 0.3));
+		Scheduler.getInstance().add(autoGroup);
 		//Scheduler.getInstance().add(turnClock);
 		//Scheduler.getInstance().add(turnCount);
 
