@@ -1,22 +1,32 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team1014.robot;
 
-/**
- * The RobotMap is a mapping from the ports sensors and actuators are wired into
- * to a variable name. This provides flexibility changing wiring, makes checking
- * the wiring easier and significantly reduces the number of magic numbers
- * floating around.
- */
-public class RobotMap 
-{
-	public static final int BACK_LEFT_SPEED_CONTROLLER = 33; 
-	public static final int BACK_RIGHT_SPEED_CONTROLLER = 28; 
-	public static final int FRONT_LEFT_SPEED_CONTROLLER = 32; 
-	public static final int FRONT_RIGHT_SPEED_CONTROLLER = 31;	
+public class RobotMap {
+
+	/*
+	 * This class has a lot of unused mappings. Don't change or remove them. This is
+	 * to provide consistency between all robots this year. Change CAN IDs to fit
+	 * these mappings, not the other way around.
+	 */
+
+	// Drive Train Motors
+	// Numbered front to back
+	public static final int DRIVE_RIGHT_1_ID = 31;
+	public static final int DRIVE_RIGHT_2_ID = 32;
+	public static final int DRIVE_RIGHT_3_ID = 33; // Reserved
+	public static final int DRIVE_LEFT_1_ID = 34;
+	public static final int DRIVE_LEFT_2_ID = 35;
+	public static final int DRIVE_LEFT_3_ID = 36; // Reserved
+
+	// Cube Handler & Lift
+	public static final int GRABBER_RIGHT_1_ID = 21;
+	public static final int GRABBER_RIGHT_2_ID = 22;
+	public static final int GRABBER_LEFT_1_ID = 23;
+	public static final int GRABBER_LEFT_2_ID = 24;
+	public static final int LIFT_1_ID = 25;
+	public static final int LIFT_2_ID = 26;
+	public static final int EXTENDER_ID = 27;
+
+	// Climber
+	public static final int CLIMBER_1_ID = 45;
+	public static final int CLIMBER_2_ID = 46;
 }
