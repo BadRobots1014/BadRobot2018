@@ -22,7 +22,7 @@ public class AutoDrive extends Command
 		this.power = power;
 	}
 	
-	protected void init()
+	protected void initialize()
 	{
 		targetTime_us = RobotController.getFPGATime() + time_us;
 		DriveTrain.getInstance().drive(power, power);
