@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
-import org.usfirst.frc.team1014.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,6 +9,7 @@ public class AutoDrive extends Command
 {
 	
 	double time_us, targetTime_us, passedTime_us, power;
+	Drivetrain drive;
 
 	/**
 	 * 
@@ -20,12 +21,13 @@ public class AutoDrive extends Command
 		this.time_us = time_s * 1000000;
 		targetTime_us = RobotController.getFPGATime();
 		this.power = power;
+		drive = new Drivetrain();
 	}
 	
 	protected void initialize()
 	{
 		targetTime_us = RobotController.getFPGATime() + time_us;
-		DriveTrain.getInstance().drive(power, power);
+		drive.directDrive(power, -power);
 		System.out.println("init");
 	}
 
@@ -39,7 +41,7 @@ public class AutoDrive extends Command
 
 	protected void end() 
 	{
-		DriveTrain.getInstance().drive(0, 0);
+		drive.directDrive(0, 0);
 	}
 
 	@Override
