@@ -6,7 +6,7 @@ public class AutoCommandGroup extends CommandGroup
 {
 	public AutoCommandGroup()
 	{
-		this.addSequential(new AutoDrive(2, 1));
+		this.addSequential(new AutoDrive(10, .2));
 		
 		
 		

@@ -26,11 +26,11 @@ public class Robot extends TimedRobot {
 	Teleop teleopCG;
 
 	@Override
-
 	public void robotInit() {
 		oi = new OI();
 		driveTrain = new Drivetrain();
 		teleopCG = new Teleop(driveTrain);
+		autoGroup = new AutoCommandGroup();
 	}
 	
 	@Override
