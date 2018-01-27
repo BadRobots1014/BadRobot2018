@@ -31,6 +31,7 @@ public class TeleDrive extends Command {
 		double right = -controller.getY(Hand.kRight);
 
 		driveTrain.directDrive(left, right);
+		System.out.println(driveTrain.getYaw());
 	}
 
 	@Override

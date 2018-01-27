@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1014.robot;
 
 import java.util.Optional;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class OI {
@@ -11,6 +13,10 @@ public class OI {
 		controller0 = new XboxController(0);
 
 		// TODO: Use DriverStation to auto detect
-		controller1 = Optional.of(new XboxController(1));
+	/*	if(DriverStation.getInstance().getStickButtonCount(1)) {
+			controller1 = Optional.of(new XboxController(1));
+			System.out.println("xbox2");
+		}*/
+	
 	}
 }
