@@ -77,6 +77,13 @@ public class Drivetrain extends Subsystem {
 		}
 		
 	}
+	
+	public void rotate(double targetAngle, double power) {
+		if(targetAngle < 0)
+			directDrive(-power, power);
+		else
+			directDrive(power, -power);
+	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

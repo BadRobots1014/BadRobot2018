@@ -13,9 +13,10 @@ public class OI {
 		controller0 = new XboxController(0);
 
 		// TODO: Use DriverStation to auto detect
-		//if(DriverStation.getInstance().getStickButtonCount(1) != 0) {
-			
-	//	}
-		controller1 = Optional.of(new XboxController(1));
+	/*	if(DriverStation.getInstance().getStickButtonCount(1)) {
+			controller1 = Optional.of(new XboxController(1));
+			System.out.println("xbox2");
+		}*/
+	
 	}
 }
