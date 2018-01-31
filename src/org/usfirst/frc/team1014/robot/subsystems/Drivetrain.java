@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.RobotMap;
+import org.usfirst.frc.team1014.robot.util.MiniPID;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -17,6 +18,7 @@ public class Drivetrain extends Subsystem {
 	AHRS ahrs;
 
 	private double targetAngle;
+	MiniPID miniPID;
 
 	public Drivetrain() {
 		rightFront = new TalonSRX(RobotMap.DRIVE_RIGHT_1_ID);
@@ -29,9 +31,10 @@ public class Drivetrain extends Subsystem {
 
 		ahrs = new AHRS(Port.kMXP);
 		ahrs.zeroYaw();
-		ahrs.resetDisplacement();
 
 		targetAngle = 0;
+		miniPID = new MiniPID(.05, .001, .20);
+		miniPID.setOutputLimits(.5);
 	}
 
 	public void directDrive(double left, double right) {
@@ -40,12 +43,8 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void autoTurn() {
-		double robotAngle = ahrs.getAngle();
-
-		double error = robotAngle - targetAngle;
-
-		double left = error /= -100;
-		directDrive(left, -left);
+		double output = miniPID.getOutput(ahrs.getAngle(), targetAngle);
+		directDrive(output, -output);
 	}
 
 	public void initDefaultCommand() {
