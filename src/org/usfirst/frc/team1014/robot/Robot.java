@@ -98,7 +98,7 @@ public class Robot extends TimedRobot {
 		logger.updateTopics();
 		// Only log once every 250ms in disabled, to save disk space
 		long currentMS = System.currentTimeMillis();
-		if (DriverStation.getInstance().isDisabled() && (currentMS - lastLog) >= 250) {
+		if (!DriverStation.getInstance().isDisabled() || (currentMS - lastLog) >= 250) {
 			lastLog = currentMS;
 			logger.log();
 		}
