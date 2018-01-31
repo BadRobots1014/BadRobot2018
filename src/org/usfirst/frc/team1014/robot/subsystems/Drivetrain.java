@@ -46,6 +46,12 @@ public class Drivetrain extends Subsystem {
 		double output = miniPID.getOutput(ahrs.getAngle(), targetAngle);
 		directDrive(output, -output);
 	}
+	
+	public void driveStraight(double speed) {
+		double turnComp = miniPID.getOutput(ahrs.getAngle(), targetAngle);
+		directDrive(speed + turnComp, speed - turnComp);
+		System.out.println(ahrs.getDisplacementX() + ", " + ahrs.getDisplacementY() + ", " + ahrs.getDisplacementZ());
+	}
 
 	public void initDefaultCommand() {
 	}
