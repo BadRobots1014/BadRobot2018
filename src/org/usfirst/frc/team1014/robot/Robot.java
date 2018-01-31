@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import org.usfirst.frc.team1014.robot.commands.Teleop;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
+import badlog.lib.BadLog;
+
 public class Robot extends TimedRobot {
 	public static OI oi;
 
@@ -15,10 +17,14 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		oi = new OI();
-		driveTrain = new Drivetrain();
+		BadLog logger = BadLog.init("test");
+		{
+			oi = new OI();
+			driveTrain = new Drivetrain();
 
-		teleopCG = new Teleop(driveTrain);
+			teleopCG = new Teleop(driveTrain);
+		}
+		logger.finishInitialization();
 	}
 
 	@Override
