@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -14,6 +15,7 @@ public class Drivetrain extends Subsystem {
 	TalonSRX rightFront, rightBack, leftFront, leftBack;
 	double currentAngle;
 	AHRS navx;
+	AnalogInput ultra;
 
 	public Drivetrain() {
 		rightFront = new TalonSRX(RobotMap.DRIVE_RIGHT_1_ID);
@@ -26,6 +28,8 @@ public class Drivetrain extends Subsystem {
 
 		navx = new AHRS(SPI.Port.kMXP);
 		navx.zeroYaw();
+		
+		ultra = new AnalogInput(1);
 	}
 	
 	public void zeroYaw() {
@@ -34,6 +38,10 @@ public class Drivetrain extends Subsystem {
 	
 	public double getYaw() {
 		return navx.getYaw();
+	}
+	
+	public double getUltraDistance() {
+		return ultra.getVoltage() * 41.46;
 	}
 
 	public void directDrive(double left, double right) {

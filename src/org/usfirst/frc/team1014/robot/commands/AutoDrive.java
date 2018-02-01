@@ -27,7 +27,7 @@ public class AutoDrive extends Command
 	protected void initialize()
 	{
 		targetTime_us = RobotController.getFPGATime() + time_us;
-		//drive.directDrive(power, power);
+		drive.directDrive(power, power);
 
 		System.out.println("init");
 	}
@@ -37,7 +37,7 @@ public class AutoDrive extends Command
 		
 		//passedTime_us = RobotController.getFPGATime() - targetTime_us;
 		//System.out.println(RobotController.getFPGATime() + "    " + targetTime_us);
-		drive.driveStraight(power, 0);
+		//drive.driveStraight(power, 0);
 		//System.out.println(passedTime_us);
 	}
 

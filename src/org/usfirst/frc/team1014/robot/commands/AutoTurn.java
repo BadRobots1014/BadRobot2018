@@ -13,11 +13,12 @@ public class AutoTurn extends Command
 	Drivetrain drive;
 	
 	
-	public AutoTurn(double power, int targetAngle) 
+	public AutoTurn(double power, int targetAngle, Drivetrain drive) 
 	{
 		//this.time = time * 1000000;
 		this.power = power;
 		this.targetAngle = targetAngle;
+		this.drive = drive;
 	}
 	
 	protected void initialize() {
@@ -38,7 +39,7 @@ public class AutoTurn extends Command
 	@Override
 	protected boolean isFinished() 
 	{
-		if (drive.getYaw() > targetAngle)
+		if (Math.abs(drive.getYaw()) > Math.abs(targetAngle))
 			return true;
 		return false;
 	}

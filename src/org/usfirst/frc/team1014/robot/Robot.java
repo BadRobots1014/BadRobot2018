@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		driveTrain = new Drivetrain();
 		teleopCG = new Teleop(driveTrain);
-		autoGroup = new AutoCommandGroup();
+		autoGroup = new AutoCommandGroup(driveTrain);
 	}
 	
 	@Override
