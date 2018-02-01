@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.RobotMap;
+import org.usfirst.frc.team1014.robot.util.MiniPID;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -8,14 +9,19 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drivetrain extends Subsystem {
 
 	TalonSRX rightFront, rightBack, leftFront, leftBack;
 	double currentAngle;
-	AHRS navx;
+	AHRS ahrs;
 	AnalogInput ultra;
+
+	private double targetAngle;
+	MiniPID miniPID;
 
 	public Drivetrain() {
 		rightFront = new TalonSRX(RobotMap.DRIVE_RIGHT_1_ID);
@@ -26,10 +32,15 @@ public class Drivetrain extends Subsystem {
 		rightBack.follow(rightFront);
 		leftBack.follow(leftFront);
 
-		navx = new AHRS(SPI.Port.kMXP);
-		navx.zeroYaw();
 		
 		ultra = new AnalogInput(1);
+		
+		ahrs = new AHRS(Port.kMXP);
+		ahrs.zeroYaw();
+
+		targetAngle = 0;
+		miniPID = new MiniPID(.05, .001, .20);
+		miniPID.setOutputLimits(.5);
 	}
 	
 	public void zeroYaw() {
@@ -42,6 +53,7 @@ public class Drivetrain extends Subsystem {
 	
 	public double getUltraDistance() {
 		return ultra.getVoltage() * 41.46;
+		
 	}
 
 	public void directDrive(double left, double right) {
@@ -92,9 +104,26 @@ public class Drivetrain extends Subsystem {
 		else
 			directDrive(power, -power);
 	}
+	
+	public void autoTurn() {
+		double output = miniPID.getOutput(ahrs.getAngle(), targetAngle);
+		directDrive(output, -output);
+	}
+	
+	public void driveStraight(double speed) {
+		double turnComp = miniPID.getOutput(ahrs.getAngle(), targetAngle);
+		directDrive(speed + turnComp, speed - turnComp);
+		System.out.println(ahrs.getDisplacementX() + ", " + ahrs.getDisplacementY() + ", " + ahrs.getDisplacementZ());
+	}
 
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+	}
+
+	public double getTargetAngle() {
+		return targetAngle;
+	}
+
+	public void setTargetAngle(double targetAngle) {
+		this.targetAngle = targetAngle;
 	}
 }
