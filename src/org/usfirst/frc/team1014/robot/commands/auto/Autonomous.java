@@ -1,7 +1,9 @@
-package org.usfirst.frc.team1014.robot.commands;
+package org.usfirst.frc.team1014.robot.commands.auto;
 
 import java.util.stream.IntStream;
 
+import org.usfirst.frc.team1014.robot.commands.DriveStraight;
+import org.usfirst.frc.team1014.robot.commands.Spin;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

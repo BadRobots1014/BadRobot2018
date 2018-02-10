@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1014.robot;
 
-import org.usfirst.frc.team1014.robot.commands.Autonomous;
 import org.usfirst.frc.team1014.robot.commands.Teleop;
+import org.usfirst.frc.team1014.robot.commands.auto.Autonomous;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1014.robot.util.LogUtil;
 
