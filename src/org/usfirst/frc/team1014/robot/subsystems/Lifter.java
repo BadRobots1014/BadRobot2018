@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Lifter extends Subsystem {
 
 	TalonSRX liftMotor; //heightSensor
-
+	// test comment
 	public Lifter() {
 		liftMotor = new TalonSRX(RobotMap.LIFT_1_ID);
 	}
