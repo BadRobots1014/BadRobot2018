@@ -63,15 +63,25 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
-	public void autonomousPeriodic() {
-		periodic();
-	}
-
-	@Override
 	public void teleopInit() {
 		Scheduler.getInstance().removeAll();
 
 		teleopCG.start();
+	}
+
+	@Override
+	public void testInit() {
+		Scheduler.getInstance().removeAll();
+	}
+
+	@Override
+	public void disabledInit() {
+		Scheduler.getInstance().removeAll();
+	}
+
+	@Override
+	public void autonomousPeriodic() {
+		periodic();
 	}
 
 	@Override
