@@ -1,16 +1,14 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
+
+<<<<<<< HEAD
+=======
+import edu.wpi.first.wpilibj.AnalogInput;
+>>>>>>> branch 'master' of https://github.com/tamtzehei/BadRobot2018.git
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
 /**
  * An example command. You can replace me with your own command.
@@ -18,26 +16,52 @@ import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 public class TeleDrive extends Command {
 
 	private XboxController controller;
-	private Drivetrain driveTrain;
+	private Drivetrain driveTrain;	
+	boolean AButton;
+	double targetAngle;
 
 	public TeleDrive(Drivetrain driveTrain, XboxController controller) {
 		this.driveTrain = driveTrain;
 		this.controller = controller;
 		requires(driveTrain);
+		count = 0;
 	}
 
 	@Override
 	protected void initialize() {
+		AButton = false;
+		targetAngle = 0;
+
 	}
 
 	@Override
 	protected void execute() {
 		// Negative because top left is (-1,-1)
-		double left = -controller.getY(Hand.kLeft);
-		double right = -controller.getY(Hand.kRight);
+		/*if (controller.getAButton()) {
+			AButton = !AButton;
+			System.out.println(AButton);
+		}*/
+		if (controller.getAButton()) {
+			targetAngle = Math.atan2(controller.getY(Hand.kLeft), controller.getX(Hand.kLeft)) * 57.2957795131;
+			System.out.println(targetAngle);
+			driveTrain.setTargetAngle(targetAngle);
+			driveTrain.autoTurn();
+		}
 
-		driveTrain.directDrive(left, right);
+
+		else {
+
+			System.out.println(driveTrain.getUltraDistance());
+
+			double left = -controller.getY(Hand.kLeft);
+			double right = -controller.getY(Hand.kRight);
+
+			driveTrain.directDrive(left, right);
+
+		}
 	}
+		
+	
 
 	@Override
 	protected boolean isFinished() {
