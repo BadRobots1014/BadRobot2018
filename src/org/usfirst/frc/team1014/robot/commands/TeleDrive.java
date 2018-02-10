@@ -2,10 +2,7 @@ package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
-<<<<<<< HEAD
-=======
 import edu.wpi.first.wpilibj.AnalogInput;
->>>>>>> branch 'master' of https://github.com/tamtzehei/BadRobot2018.git
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
