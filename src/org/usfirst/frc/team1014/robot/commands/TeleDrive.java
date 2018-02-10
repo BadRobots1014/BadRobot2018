@@ -1,14 +1,11 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
+<<<<<<< HEAD
+=======
+import edu.wpi.first.wpilibj.AnalogInput;
+>>>>>>> branch 'master' of https://github.com/tamtzehei/BadRobot2018.git
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,8 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TeleDrive extends Command {
 
 	private XboxController controller;
-	private Drivetrain driveTrain;
-	
+	private Drivetrain driveTrain;	
 	boolean AButton;
 	double targetAngle;
 
@@ -28,12 +24,14 @@ public class TeleDrive extends Command {
 		this.driveTrain = driveTrain;
 		this.controller = controller;
 		requires(driveTrain);
+		count = 0;
 	}
 
 	@Override
 	protected void initialize() {
 		AButton = false;
 		targetAngle = 0;
+
 	}
 
 	@Override
@@ -50,6 +48,7 @@ public class TeleDrive extends Command {
 			driveTrain.autoTurn();
 		}
 
+
 		else {
 
 			System.out.println(driveTrain.getUltraDistance());
@@ -58,8 +57,11 @@ public class TeleDrive extends Command {
 			double right = -controller.getY(Hand.kRight);
 
 			driveTrain.directDrive(left, right);
+
 		}
 	}
+		
+	
 
 	@Override
 	protected boolean isFinished() {
