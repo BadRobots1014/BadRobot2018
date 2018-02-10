@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import org.usfirst.frc.team1014.robot.commands.Autonomous;
->>>>>>> branch 'master' of https://github.com/tamtzehei/BadRobot2018.git
 import org.usfirst.frc.team1014.robot.commands.Teleop;
 import org.usfirst.frc.team1014.robot.commands.auto.Autonomous;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
