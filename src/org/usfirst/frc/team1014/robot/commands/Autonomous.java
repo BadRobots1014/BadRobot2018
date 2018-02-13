@@ -1,12 +1,8 @@
 package org.usfirst.frc.team1014.robot.commands;
 
-import java.util.stream.IntStream;
-
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class Autonomous extends CommandGroup {
 	public Autonomous(Drivetrain driveTrain) {
