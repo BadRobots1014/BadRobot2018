@@ -1,13 +1,6 @@
 package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.AutoCommandGroup;
-import org.usfirst.frc.team1014.robot.commands.TeleDrive;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
-
-import org.usfirst.frc.team1014.robot.commands.Autonomous;
 import org.usfirst.frc.team1014.robot.commands.Teleop;
 import org.usfirst.frc.team1014.robot.commands.auto.Autonomous;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
@@ -18,13 +11,9 @@ import badlog.lib.DataInferMode;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
-
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	public static OI oi;
