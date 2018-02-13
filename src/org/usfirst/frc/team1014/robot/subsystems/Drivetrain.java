@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import badlog.lib.BadLog;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -84,43 +83,6 @@ public class Drivetrain extends Subsystem {
 	
 	public double getYaw() {
 		return ahrs.getYaw();
-	}
-
-	public void driveStraight(double speed, double targetAngle) 
-	{
-		System.out.println(getYaw() + "       " + targetAngle);
-		double error = getYaw() - targetAngle;
-		if(error != 5)
-		{
-			int direction = -1;
-			int sum = (int) (getYaw() + 180);
-			
-			if(sum >= 360)
-			{
-				sum -= 360;
-			}
-			if(getYaw() <= targetAngle && targetAngle <= sum)
-			{
-				direction *= -1;
-			}
-			
-			if(direction > 0)
-			{
-				rightFront.set(ControlMode.PercentOutput, .2);
-				leftFront.set(ControlMode.PercentOutput, -.2);
-			}
-			else
-			{
-				rightFront.set(ControlMode.PercentOutput, -.2);
-				leftFront.set(ControlMode.PercentOutput, .2);
-			}
-		}
-		else
-		{
-			rightFront.set(ControlMode.PercentOutput, speed);
-			leftFront.set(ControlMode.PercentOutput, speed);
-		}
-		
 	}
 	
 	public void rotate(double targetAngle, double power) {

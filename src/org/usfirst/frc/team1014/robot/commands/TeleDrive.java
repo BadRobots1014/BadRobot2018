@@ -2,7 +2,6 @@ package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -17,9 +16,9 @@ public class TeleDrive extends Command {
 	boolean AButton;
 	double targetAngle;
 
-	public TeleDrive(Drivetrain driveTrain, XboxController controller) {
+	public TeleDrive(Drivetrain driveTrain, XboxController controller0) {
 		this.driveTrain = driveTrain;
-		this.controller = controller;
+		this.controller = controller0;
 		requires(driveTrain);
 	}
 

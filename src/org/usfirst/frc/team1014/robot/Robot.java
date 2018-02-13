@@ -1,9 +1,10 @@
 package org.usfirst.frc.team1014.robot;
 
-import org.usfirst.frc.team1014.robot.commands.AutoCommandGroup;
 import org.usfirst.frc.team1014.robot.commands.Teleop;
 import org.usfirst.frc.team1014.robot.commands.auto.Autonomous;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1014.robot.subsystems.Grabber;
+import org.usfirst.frc.team1014.robot.subsystems.Lifter;
 import org.usfirst.frc.team1014.robot.util.LogUtil;
 
 import badlog.lib.BadLog;
@@ -11,21 +12,15 @@ import badlog.lib.DataInferMode;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Robot extends TimedRobot {
 	public static OI oi;
 
 	Drivetrain driveTrain;
-	//public static Command fowards = new AutoDrive(50, 0.3); // the autonomous command the robot should run
-	//public static Command turnClock = new AutoTurn(.5, 0.3, 1); // the autonomous command the robot should run
-	//public static Command turnCount = new AutoTurn(.5, 0.3, -1); // the autonomous command the robot should run
-	AutoCommandGroup autoGroup;
-	public static Command tele;  // the autonomous command the robot should run
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+	Lifter lifter;
+	Grabber grabber;
 
 	Teleop teleopCG;
 	Autonomous autoCG;
@@ -58,8 +53,10 @@ public class Robot extends TimedRobot {
 
 			oi = new OI();
 			driveTrain = new Drivetrain();
+			grabber = new Grabber();
+			lifter = new Lifter();
 
-			teleopCG = new Teleop(driveTrain);
+			teleopCG = new Teleop(driveTrain, grabber, lifter);
 			autoCG = new Autonomous(driveTrain);
 		}
 		logger.finishInitialization();

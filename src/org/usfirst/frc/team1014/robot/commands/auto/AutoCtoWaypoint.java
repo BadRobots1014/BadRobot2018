@@ -19,9 +19,9 @@ public class AutoCtoWaypoint extends CommandGroup
 	 */
 	public AutoCtoWaypoint(Drivetrain drivetrain, int direction)
 	{
-		this.addSequential(new DriveStraightDistance(drivetrain, 25)); //values not correct, should go fowards a foot
+		this.addSequential(new DriveStraightDistance(drivetrain, 25)); 
 		this.addSequential(new Spin(drivetrain, 40 * direction));
-		this.addSequential(new DriveStraightDistance(drivetrain, 187.5)); //values not correct, should go fowards 117 inches
+		this.addSequential(new DriveStraightDistance(drivetrain, 187.5)); 
 		this.addSequential(new Spin(drivetrain, -40 * direction));
 				
 	}

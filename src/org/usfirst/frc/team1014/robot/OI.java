@@ -2,8 +2,7 @@ package org.usfirst.frc.team1014.robot;
 
 import java.util.Optional;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
+import org.usfirst.frc.team1014.robot.controls.XboxController;
 
 public class OI {
 	public XboxController controller0;
