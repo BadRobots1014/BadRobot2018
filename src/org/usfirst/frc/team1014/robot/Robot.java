@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
 
 			BadLog.createTopicStr("System/Browned Out", "bool", () -> LogUtil.fromBool(RobotController.isBrownedOut()));
 			BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
+			BadLog.createTopicStr("System/FPGA Active", "bool", () -> LogUtil.fromBool(RobotController.isSysActive()));
 			BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
 
 			oi = new OI();
