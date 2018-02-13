@@ -23,7 +23,7 @@ public class UseGrabber extends Command {
 		}
 		else if (controller.getBumper(Hand.kRight)) {
 			// release
-			grabber.turnRelease(1);
+			grabber.turnRelease(.6);
 		}
 		else {
 			grabber.turnRelease(0);
