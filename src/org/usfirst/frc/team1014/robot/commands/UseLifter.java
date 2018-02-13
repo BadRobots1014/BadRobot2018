@@ -10,32 +10,23 @@ public class UseLifter extends Command {
 
 	private XboxController controller;
 	private Lifter lifter;
+
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-		if(controller.getTriggerAxis(Hand.kLeft)>0.1) {
-			// lift the thingy
-			double lifterSpeed = controller.getTriggerAxis(Hand.kLeft);
-			lifter.move(lifterSpeed);
-			
-			}
-		else if(controller.getTriggerAxis(Hand.kRight)>0.1) {
-			// drop the thingy
-			double lifterSpeed = controller.getTriggerAxis(Hand.kLeft);
-			lifter.move(-lifterSpeed);
-		}
+		lifter.move(controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft));
 
 	}
+
 	public UseLifter(XboxController controller, Lifter lifter) {
 		requires(lifter);
 		this.controller = controller;
 		this.lifter = lifter;
 	}
-	
 
 }

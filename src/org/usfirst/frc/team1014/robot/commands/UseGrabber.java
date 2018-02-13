@@ -25,6 +25,9 @@ public class UseGrabber extends Command {
 			// release
 			grabber.turnRelease(1);
 		}
+		else {
+			grabber.turnRelease(0);
+		}
 	}
 	
 	public UseGrabber(XboxController controller, Grabber grabber)

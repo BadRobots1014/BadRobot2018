@@ -25,11 +25,11 @@ public class Grabber extends Subsystem {
 
 	public void turnRelease(double wheelSpeed) {
 		leftWheel.set(ControlMode.PercentOutput, wheelSpeed);
-		rightWheel.set(ControlMode.PercentOutput, wheelSpeed);
+		rightWheel.set(ControlMode.PercentOutput, -wheelSpeed);
 	}
 	public void turnCollect(double wheelSpeed) {
 		leftWheel.set(ControlMode.PercentOutput, -wheelSpeed);
-		rightWheel.set(ControlMode.PercentOutput, -wheelSpeed);
+		rightWheel.set(ControlMode.PercentOutput, wheelSpeed);
 	}
 	
 	
