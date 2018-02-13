@@ -21,7 +21,6 @@ public class TeleDrive extends Command {
 		this.driveTrain = driveTrain;
 		this.controller = controller;
 		requires(driveTrain);
-		count = 0;
 	}
 
 	@Override

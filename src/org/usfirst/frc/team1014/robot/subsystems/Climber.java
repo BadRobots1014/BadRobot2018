@@ -7,16 +7,16 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Lifter extends Subsystem{
+public class Climber extends Subsystem{
 
 	TalonSRX climber;
-	public Lifter() {
+	public Climber() {
 		
-		climber = new TalonSRX(RobotMap.);
+		climber = new TalonSRX(RobotMap.CLIMBER_1_ID);
 		
 	}
 	public void lift(double power) {
-		lifter.set(ControlMode.PercentOutput, power);
+		climber.set(ControlMode.PercentOutput, power);
 	}
 	
 	@Override

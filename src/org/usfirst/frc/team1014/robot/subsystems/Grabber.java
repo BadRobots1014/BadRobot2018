@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Grabber extends Subsystem{
 
 	TalonSRX grabLeft, grabRight;
-	public Lifter() {
+	public Grabber() {
 		
 		grabLeft = new TalonSRX(RobotMap.GRABBER_LEFT_1_ID);
-		grabRight = new TalonSRX(RobotMap.GRABBER_RIGHT_1_ID)
+		grabRight = new TalonSRX(RobotMap.GRABBER_RIGHT_1_ID);
 	}
 	public void move(double power) {
 		grabLeft.set(ControlMode.PercentOutput, power);
