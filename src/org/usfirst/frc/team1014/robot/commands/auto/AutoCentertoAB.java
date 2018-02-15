@@ -1,11 +1,12 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
+import org.usfirst.frc.team1014.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team1014.robot.commands.Spin;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoCtoWaypoint extends CommandGroup
+public class AutoCentertoAB extends CommandGroup
 {
 	
 	double power, half;
@@ -17,7 +18,7 @@ public class AutoCtoWaypoint extends CommandGroup
 	 * 
 	 * 
 	 */
-	public AutoCtoWaypoint(Drivetrain drivetrain, int direction)
+	public AutoCentertoAB(Drivetrain drivetrain, int direction)
 	{
 		this.addSequential(new DriveStraightDistance(drivetrain, 25)); 
 		this.addSequential(new Spin(drivetrain, 40 * direction));
