@@ -9,6 +9,9 @@ public class UseGrabber extends Command {
 	private XboxController controller;
 	private Grabber grabber;
 
+	boolean grabState = false, grabDown = false;
+	long startLastGrab = 0;
+
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
@@ -21,11 +24,26 @@ public class UseGrabber extends Command {
 		if (controller.getBumper(Hand.kLeft)) {
 			// Collect cubes
 			grabber.turnCollect(1);
+			grabState = false;
 		} else if (controller.getBumper(Hand.kRight)) {
 			// release
 			grabber.turnRelease(.6);
+			grabState = false;
 		} else {
-			grabber.turnRelease(0);
+			if (grabState)  
+				grabber.turnCollect((System.currentTimeMillis() - startLastGrab) % 1000 < 250 ? .2 : 0);
+			else
+				grabber.turnCollect(0);
+		}
+
+		if (controller.getAButton()) {
+			if (!grabDown) {
+				grabDown = true;
+				grabState = !grabState;
+				startLastGrab = System.currentTimeMillis();
+			}
+		} else {
+			grabDown = false;
 		}
 	}
 
