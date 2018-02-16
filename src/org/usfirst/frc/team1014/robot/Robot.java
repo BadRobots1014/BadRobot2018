@@ -1,32 +1,39 @@
 package org.usfirst.frc.team1014.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
-
 import org.usfirst.frc.team1014.robot.commands.Autonomous;
 import org.usfirst.frc.team1014.robot.commands.Teleop;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1014.robot.subsystems.Grabber;
+import org.usfirst.frc.team1014.robot.subsystems.Lifter;
 import org.usfirst.frc.team1014.robot.util.LogUtil;
 
 import badlog.lib.BadLog;
 import badlog.lib.DataInferMode;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	public static OI oi;
 
 	Drivetrain driveTrain;
 
+	Lifter lifter;
+	Grabber grabber;
+
 	Teleop teleopCG;
 	Autonomous autoCG;
-
+	
 	private BadLog logger;
 	private long startTimeNS;
 	private long lastLog;
 
 	@Override
 	public void robotInit() {
+
 		startTimeNS = System.nanoTime();
 		lastLog = System.currentTimeMillis();
 		String session = LogUtil.genSessionName();
@@ -48,9 +55,12 @@ public class Robot extends TimedRobot {
 
 			oi = new OI();
 			driveTrain = new Drivetrain();
+			grabber = new Grabber();
+			lifter = new Lifter();
 
-			teleopCG = new Teleop(driveTrain);
-			autoCG = new Autonomous(driveTrain);
+			teleopCG = new Teleop(driveTrain, grabber, lifter);
+			autoCG = new Autonomous(driveTrain, lifter, grabber);
+		
 		}
 		logger.finishInitialization();
 	}
@@ -58,7 +68,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
-
+		
 		autoCG.start();
 	}
 

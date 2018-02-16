@@ -11,8 +11,8 @@ public class DriveStraightDistance extends Command {
 
 	long startTime;
 
-	double linRegOffset = -4.53;
-	double linRegScaler = 59;
+	double linRegOffset = -2.4788;
+	double linRegScaler = 56.4918;
 
 	public DriveStraightDistance(Drivetrain driveTrain, double distance) {
 		this.speed = .5;

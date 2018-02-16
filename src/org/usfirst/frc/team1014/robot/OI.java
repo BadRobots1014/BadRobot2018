@@ -1,7 +1,9 @@
 package org.usfirst.frc.team1014.robot;
 
 import java.util.Optional;
+
 import edu.wpi.first.wpilibj.XboxController;
+
 
 public class OI {
 	public XboxController controller0;
@@ -12,5 +14,7 @@ public class OI {
 
 		// TODO: Use DriverStation to auto detect
 		controller1 = Optional.of(new XboxController(1));
+			
+	
 	}
 }
