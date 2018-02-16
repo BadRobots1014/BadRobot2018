@@ -16,7 +16,6 @@ public class Drivetrain extends Subsystem {
 
 	TalonSRX rightFront, rightBack, leftFront, leftBack;
 
-	PWM ultra;
 	AHRS ahrs;
 
 	private double targetAngle;
@@ -58,18 +57,11 @@ public class Drivetrain extends Subsystem {
 		ahrs = new AHRS(Port.kMXP);
 		ahrs.zeroYaw();
 		
-		ultra = new PWM(9);
-
 		BadLog.createTopic("Drivetrain/Angle", "deg", () -> getAngleCCW());
 
 		targetAngle = 0;
 		miniPID = new MiniPID(.05, .001, .20);
 		miniPID.setOutputLimits(.5);
-	}
-	
-	public double getUltraDistance() {
-		return ultra.getRaw();
-
 	}
 	
 	public void zeroYaw() {
