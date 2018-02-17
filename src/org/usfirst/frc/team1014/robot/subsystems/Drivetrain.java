@@ -6,6 +6,7 @@ import org.usfirst.frc.team1014.robot.util.MiniPID;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -21,6 +22,9 @@ public class Drivetrain extends Subsystem {
 
 	private double targetAngle;
 	MiniPID miniPID;
+	Ultrasonic ultra = new Ultrasonic(0,1);
+	double currentAngle;
+	AHRS navx;
 
 	public Drivetrain() {
 		rightFront = new TalonSRX(RobotMap.DRIVE_RIGHT_1_ID);
@@ -63,15 +67,21 @@ public class Drivetrain extends Subsystem {
 		targetAngle = 0;
 		miniPID = new MiniPID(.05, .001, .20);
 		miniPID.setOutputLimits(.5);
+		navx = new AHRS(SPI.Port.kMXP);
+		navx.zeroYaw();
+		
+		ultra.setAutomaticMode(true);
 	}
 	
 	public void zeroYaw() {
 		ahrs.zeroYaw();
 	}
 
-	public void directDrive(double left, double right) {
-		rightFront.set(ControlMode.PercentOutput, -right);
-		leftFront.set(ControlMode.PercentOutput, left);
+	public void directDrive(double left, double right) 
+	{
+		System.out.println(ultra.getRangeInches());
+		//rightFront.set(ControlMode.PercentOutput, -right);
+		//leftFront.set(ControlMode.PercentOutput, left);
 	}
 	
 	public double getYaw() {
