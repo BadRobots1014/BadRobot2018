@@ -6,13 +6,17 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import badlog.lib.BadLog;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Lifter extends Subsystem {
 
 	TalonSRX liftMotor;
+	DigitalInput bottomLimit, topLimit;
 
 	public Lifter() {
+		bottomLimit = new DigitalInput(0);
+		topLimit = new DigitalInput(2);
 		liftMotor = new TalonSRX(RobotMap.LIFT_1_ID);
 
 		BadLog.createTopic("Lift/Lifter Output Percent", BadLog.UNITLESS, () -> liftMotor.getMotorOutputPercent(),
@@ -28,6 +32,26 @@ public class Lifter extends Subsystem {
 	public void move(double speed) {
 		liftMotor.set(ControlMode.PercentOutput, speed);
 
+	}
+
+	public void safeMove(double speed) {
+		if (speed > 0) {
+			if (isAtTop())
+				speed = 0;
+		} else {
+			if (isAtBottom())
+				speed = 0;
+		}
+		liftMotor.set(ControlMode.PercentOutput, speed);
+
+	}
+
+	public boolean isAtBottom() {
+		return bottomLimit.get();
+	}
+
+	public boolean isAtTop() {
+		return topLimit.get();
 	}
 
 	@Override
