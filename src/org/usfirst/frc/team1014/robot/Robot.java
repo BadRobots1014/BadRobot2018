@@ -1,6 +1,10 @@
 package org.usfirst.frc.team1014.robot;
 
 import org.usfirst.frc.team1014.robot.commands.Teleop;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoRLScale;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoRLSwitch;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoScaleC;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoSwitchCShort;
 import org.usfirst.frc.team1014.robot.commands.auto.Autonomous;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1014.robot.subsystems.Grabber;
@@ -12,7 +16,10 @@ import badlog.lib.DataInferMode;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	public static OI oi;
@@ -28,10 +35,19 @@ public class Robot extends TimedRobot {
 	private BadLog logger;
 	private long startTimeNS;
 	private long lastLog;
+	Command autonomousCommand;
+	SendableChooser autoChooser;
 
 	@Override
 	public void robotInit() {
-
+		
+		autoChooser = new SendableChooser();
+		autoChooser.addDefault("Default program", new AutoRLScale(driveTrain, 0));
+		autoChooser.addObject("R, L, Scale", new AutoRLScale(driveTrain, 0));
+		autoChooser.addObject("R, L, Switch", new AutoRLSwitch(driveTrain, 0));
+		autoChooser.addObject("C, Scale", new AutoScaleC(driveTrain, 0));
+		autoChooser.addObject("C, Switch(short)", new AutoSwitchCShort(driveTrain, 0));
+		SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
 		startTimeNS = System.nanoTime();
 		lastLog = System.currentTimeMillis();
 		String session = LogUtil.genSessionName();
@@ -65,7 +81,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
-
+		autonomousCommand = (Command) autoChooser.getSelected();
+		autonomousCommand.start();
 		autoCG.start();
 	}
 

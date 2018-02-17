@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import badlog.lib.BadLog;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -108,6 +109,20 @@ public class Drivetrain extends Subsystem {
 
 	public double getTargetAngle() {
 		return targetAngle;
+	}
+	
+	public int switchSide()
+	{
+		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R')
+			return 1;
+		return -1;
+	}
+	
+	public int scaleSide()
+	{
+		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'R')
+			return 1;
+		return -1;
 	}
 
 	public void setTargetAngle(double targetAngle) {
