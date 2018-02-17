@@ -6,14 +6,13 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 
-
 /**
  * An example command. You can replace me with your own command.
  */
 public class TeleDrive extends Command {
 
 	private XboxController controller;
-	private Drivetrain driveTrain;	
+	private Drivetrain driveTrain;
 	boolean AButton;
 	double targetAngle;
 
@@ -33,31 +32,13 @@ public class TeleDrive extends Command {
 	@Override
 	protected void execute() {
 		// Negative because top left is (-1,-1)
-		/*if (controller.getAButton()) {
-			AButton = !AButton;
-			System.out.println(AButton);
-		}*/
-		if (controller.getAButton()) {
-			targetAngle = Math.atan2(controller.getY(Hand.kLeft), controller.getX(Hand.kLeft)) * 57.2957795131;
-			System.out.println(targetAngle);
-			driveTrain.setTargetAngle(targetAngle);
-			driveTrain.autoTurn();
-		}
 
+		double left = -controller.getY(Hand.kLeft);
+		double right = -controller.getY(Hand.kRight);
 
-		else {
+		driveTrain.directDrive(left, right);
 
-			System.out.println(driveTrain.getUltraDistance());
-
-			double left = -controller.getY(Hand.kLeft);
-			double right = -controller.getY(Hand.kRight);
-
-			driveTrain.directDrive(left, right);
-
-		}
 	}
-		
-	
 
 	@Override
 	protected boolean isFinished() {

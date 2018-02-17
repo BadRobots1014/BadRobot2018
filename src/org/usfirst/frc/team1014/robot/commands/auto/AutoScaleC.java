@@ -13,7 +13,7 @@ public class AutoScaleC extends CommandGroup{
 	 * @param direction - -1 for right, 1 for left
 	 */
 	public AutoScaleC(Drivetrain driveTrain, int direction) {
-		this.addSequential(new AutoCtoWaypoint(driveTrain, direction));
+		//this.addSequential(new AutoCtoWaypoint(driveTrain, direction));
 		this.addSequential(new DriveStraightDistance(driveTrain, 25));
 		this.addSequential(new Spin(driveTrain, 40));
 		this.addSequential(new DriveStraightDistance(driveTrain, 187.5));
