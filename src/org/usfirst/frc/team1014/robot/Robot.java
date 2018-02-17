@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1014.robot;
 
+import java.util.Optional;
+
 import org.usfirst.frc.team1014.robot.commands.Autonomous;
 import org.usfirst.frc.team1014.robot.commands.Teleop;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
@@ -41,7 +43,7 @@ public class Robot extends TimedRobot {
 		logger = BadLog.init("/home/lvuser/log/" + session + ".bag");
 		{
 			BadLog.createValue("Start Time", LogUtil.getTimestamp());
-			BadLog.createValue("Event Name", DriverStation.getInstance().getEventName());
+			BadLog.createValue("Event Name", Optional.ofNullable(DriverStation.getInstance().getEventName()).orElse(""));
 			BadLog.createValue("Match Type", DriverStation.getInstance().getMatchType().toString());
 			BadLog.createValue("Match Number", "" + DriverStation.getInstance().getMatchNumber());
 			BadLog.createValue("Alliance", DriverStation.getInstance().getAlliance().toString());
