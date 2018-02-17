@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class Teleop extends CommandGroup {
 	public Teleop(Drivetrain driveTrain, Grabber grabber, Lifter lifter) {
 		super.addParallel(new TeleDrive(driveTrain, Robot.oi.controller0));
-		super.addParallel(new UseGrabber(Robot.oi.controller0, grabber));
+		super.addParallel(new UseGrabber(Robot.oi.controller1, grabber));
 		super.addParallel(new UseLifter(Robot.oi.controller0, lifter));
 	}
 }

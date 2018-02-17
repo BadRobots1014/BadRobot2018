@@ -29,7 +29,7 @@ public class Spin extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return (System.currentTimeMillis() - startTime) > 1200;  //run pid loop for 1.2 seconds 
+		return (System.currentTimeMillis() - startTime) > 2000;  //run pid loop for 1.2 seconds 
 	}
 
 }

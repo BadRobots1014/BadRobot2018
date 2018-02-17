@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
+import org.usfirst.frc.team1014.robot.commands.AutoRaiseSwitch;
+import org.usfirst.frc.team1014.robot.commands.AutoRelease;
 import org.usfirst.frc.team1014.robot.commands.Spin;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1014.robot.subsystems.Grabber;
@@ -17,8 +19,8 @@ public class AutoRLSwitch extends CommandGroup{
 	public AutoRLSwitch(Drivetrain driveTrain, Lifter lifter, Grabber grabber, int direction) {
 		this.addSequential(new AutoRLtoAB(driveTrain));
 		this.addSequential(new Spin(driveTrain, direction * 90));
-		this.addSequential(new AutoRaiseSwitch(lifter));
-		this.addSequential(new AutoRelease(grabber));
+		this.addSequential(new AutoMoveCloseSwitch(driveTrain, lifter, grabber));
+
 
 	}
 }

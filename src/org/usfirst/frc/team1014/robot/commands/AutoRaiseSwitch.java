@@ -1,18 +1,18 @@
-package org.usfirst.frc.team1014.robot.commands.auto;
+package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.subsystems.Lifter;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AutoRaiseScale extends Command{
+public class AutoRaiseSwitch extends Command{
 
-	private static final double TIME_US = 2000000; //Time value is currently incorrect. Needs to move 7 feet
+	private static final double TIME_US = 2000000; //Time value is currently incorrect. Needs to move 13 inches
 	
 	private Lifter lifter;
 	private double startTime_us, currentTime_us;
 	
-	public AutoRaiseScale(Lifter lifter) {
+	public AutoRaiseSwitch(Lifter lifter) {
 		this.lifter = lifter;
 	}
 	
@@ -27,11 +27,14 @@ public class AutoRaiseScale extends Command{
 	
 	protected void end() {
 		lifter.move(0);
+		
 	}
 	
 	@Override
 	protected boolean isFinished() {
 		return (currentTime_us - startTime_us) > TIME_US;
 	}
+
+	
 
 }

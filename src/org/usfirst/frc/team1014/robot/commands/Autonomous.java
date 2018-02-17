@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class Autonomous extends CommandGroup {
 	public Autonomous(Drivetrain driveTrain, Lifter lifter, Grabber grabber) {
-		this.addSequential(new AutoSwitchShortFromCenter(driveTrain, lifter, grabber, -1));
+		//this.addSequential(new DriveStraightDistance(driveTrain, 40));
+		this.addSequential(new Spin(driveTrain, 190));
+		//this.addSequential(new AutoSwitchShortFromCenter(driveTrain, lifter, grabber, -1));
 	}
 }

@@ -103,7 +103,9 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void setTargetAngle(double targetAngle) {
+	
 		this.targetAngle = targetAngle;
+		
 	}
 	
 	private double getAngleCCW() {

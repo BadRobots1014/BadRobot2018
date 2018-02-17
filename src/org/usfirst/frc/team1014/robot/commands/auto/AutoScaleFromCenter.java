@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1014.robot.commands.auto;
 
+import org.usfirst.frc.team1014.robot.commands.AutoRaiseScale;
+import org.usfirst.frc.team1014.robot.commands.AutoRelease;
 import org.usfirst.frc.team1014.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team1014.robot.commands.Spin;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
