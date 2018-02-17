@@ -1,16 +1,14 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.commands.auto.AutoSwitchShortFromCenter;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1014.robot.subsystems.Grabber;
+import org.usfirst.frc.team1014.robot.subsystems.Lifter;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class Autonomous extends CommandGroup {
-	public Autonomous(Drivetrain driveTrain) {
-		this.addSequential(new DriveStraightDistance(driveTrain, 12));
-		this.addSequential(new Spin(driveTrain, -50));
-		this.addSequential(new DriveStraightDistance(driveTrain, 117));
-		this.addSequential(new Spin(driveTrain, 50));
-		this.addSequential(new DriveStraightDistance(driveTrain, 97));
-		this.addSequential(new Spin(driveTrain, 90));
+	public Autonomous(Drivetrain driveTrain, Lifter lifter, Grabber grabber) {
+		this.addSequential(new AutoSwitchShortFromCenter(driveTrain, lifter, grabber, -1));
 	}
 }
