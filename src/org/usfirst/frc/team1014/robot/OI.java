@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class OI {
 	public XboxController controller0;
-	public Optional<XboxController> controller1;
+	public XboxController controller1;
 
 	public OI() {
 		controller0 = new XboxController(0);
 
 		// TODO: Use DriverStation to auto detect
-		controller1 = Optional.of(new XboxController(1));
+		controller1 = new XboxController(1);
 			
 	
 	}

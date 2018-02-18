@@ -15,10 +15,12 @@ public class TeleDrive extends Command {
 	private Drivetrain driveTrain;
 	boolean AButton;
 	double targetAngle;
+	private XboxController controller1;
 
-	public TeleDrive(Drivetrain driveTrain, XboxController controller0) {
+	public TeleDrive(Drivetrain driveTrain, XboxController controller0, XboxController controller1) {
 		this.driveTrain = driveTrain;
 		this.controller = controller0;
+		this.controller1 = controller1;
 		requires(driveTrain);
 	}
 
@@ -35,6 +37,11 @@ public class TeleDrive extends Command {
 
 		double left = -controller.getY(Hand.kLeft);
 		double right = -controller.getY(Hand.kRight);
+
+		double scalar = controller1.getBButton() ? (1d / 3d) : 1;
+
+		left *= scalar;
+		right *= scalar;
 
 		driveTrain.directDrive(left, right);
 
