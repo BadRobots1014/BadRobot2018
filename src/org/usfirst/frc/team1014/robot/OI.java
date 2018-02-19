@@ -11,7 +11,9 @@ public class OI {
 		controller0 = new XboxController(0);
 
 		// TODO: Use DriverStation to auto detect
-		controller1 = new XboxController(1);			
+
+		controller1 = new XboxController(1);
+			
 	
 	}
 }

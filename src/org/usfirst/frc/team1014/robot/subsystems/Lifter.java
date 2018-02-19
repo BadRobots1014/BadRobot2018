@@ -16,7 +16,7 @@ public class Lifter extends Subsystem {
 	TalonSRX liftMotor;
 
 	public Lifter() {
-		
+
 		liftMotor = new TalonSRX(RobotMap.LIFT_1_ID);
 
 		BadLog.createTopic("Lift/Lifter Output Percent", BadLog.UNITLESS, () -> liftMotor.getMotorOutputPercent(),
@@ -39,18 +39,10 @@ public class Lifter extends Subsystem {
 	}
 
 	public void safeMove(double speed) {
-		
+
 		liftMotor.set(ControlMode.PercentOutput, speed);
 
 	}
-
-	/*public boolean isAtBottom() {
-		return bottomLimit.get();
-	}
-
-	public boolean isAtTop() {
-		return topLimit.get();
-	}*/
 
 	@Override
 	protected void initDefaultCommand() {
