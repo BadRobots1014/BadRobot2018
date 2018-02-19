@@ -3,23 +3,17 @@ package org.usfirst.frc.team1014.robot.commands.auto;
 import org.usfirst.frc.team1014.robot.commands.AutoRaiseScale;
 import org.usfirst.frc.team1014.robot.commands.AutoRelease;
 import org.usfirst.frc.team1014.robot.commands.DriveStraightDistance;
-import org.usfirst.frc.team1014.robot.commands.Spin;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1014.robot.subsystems.Grabber;
 import org.usfirst.frc.team1014.robot.subsystems.Lifter;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoRLScale extends CommandGroup{
-	
-	/**
-	 * 
-	 * @param driveTrain
-	 * @param direction - -1 for right, 1 for left
-	 */
-	public AutoRLScale(Drivetrain driveTrain, Lifter lifter, Grabber grabber, int direction) {
-		this.addSequential(new DriveStraightDistance(driveTrain, 425));
-		this.addSequential(new Spin(driveTrain, direction * 90));
-		this.addSequential(new AutoMoveCloseScale(driveTrain, lifter, grabber));
+public class AutoMoveCloseScale extends CommandGroup{
+
+	public AutoMoveCloseScale(Drivetrain driveTrain, Lifter lifter, Grabber grabber) {
+		this.addSequential(new AutoRaiseScale(lifter));
+		this.addSequential(new DriveStraightDistance(driveTrain, 15)); //Value was not measured
+		this.addSequential(new AutoRelease(grabber));
 	}
 }

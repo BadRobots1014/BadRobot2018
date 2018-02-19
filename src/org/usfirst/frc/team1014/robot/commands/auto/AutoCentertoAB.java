@@ -21,9 +21,9 @@ public class AutoCentertoAB extends CommandGroup
 	public AutoCentertoAB(Drivetrain drivetrain, int direction)
 	{
 		this.addSequential(new DriveStraightDistance(drivetrain, 15.5)); 
-		this.addSequential(new Spin(drivetrain, 40 * direction));
+		this.addSequential(new Spin(drivetrain, (40 * direction)));
 		this.addSequential(new DriveStraightDistance(drivetrain, 150)); 
-		this.addSequential(new Spin(drivetrain, -40 * direction));
+		this.addSequential(new Spin(drivetrain, (-40 * direction)));
 				
 	}
 	

@@ -20,8 +20,8 @@ public class AutoScaleFromCenter extends CommandGroup{
 		this.addSequential(new AutoCentertoAB(driveTrain, direction));
 		this.addSequential(new DriveStraightDistance(driveTrain, 156.25));
 		this.addSequential(new Spin(driveTrain, direction * 90));
-		this.addSequential(new AutoRaiseScale(lifter));
-		this.addSequential(new AutoRelease(grabber));
+		this.addSequential(new AutoMoveCloseScale(driveTrain, lifter, grabber));
+
 
 	}
 	

@@ -94,13 +94,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println(driveTrain.getYaw());
 		periodic();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(driveTrain.getYaw());
 
 		periodic();
 	}

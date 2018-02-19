@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1014.robot.commands;
 
+import org.usfirst.frc.team1014.robot.Robot;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -13,7 +14,6 @@ public class TeleDrive extends Command {
 
 	private XboxController controller;
 	private Drivetrain driveTrain;
-	boolean AButton;
 	double targetAngle;
 
 	public TeleDrive(Drivetrain driveTrain, XboxController controller0) {
@@ -24,7 +24,6 @@ public class TeleDrive extends Command {
 
 	@Override
 	protected void initialize() {
-		AButton = false;
 		targetAngle = 0;
 
 	}
@@ -37,6 +36,9 @@ public class TeleDrive extends Command {
 		double right = -controller.getY(Hand.kRight);
 
 		driveTrain.directDrive(left, right);
+		
+		/*targetAngle = Math.atan2(-controller.getY(Hand.kRight), -controller.getX(Hand.kRight));
+		driveTrain.driveStraight(-controller.getY(Hand.kLeft));*/	//untested
 
 	}
 

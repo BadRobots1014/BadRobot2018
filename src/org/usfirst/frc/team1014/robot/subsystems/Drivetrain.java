@@ -56,44 +56,40 @@ public class Drivetrain extends Subsystem {
 
 		ahrs = new AHRS(Port.kMXP);
 		ahrs.zeroYaw();
-		
+
 		BadLog.createTopic("Drivetrain/Angle", "deg", () -> getAngleCCW());
 
 		targetAngle = 0;
 		miniPID = new MiniPID(.05, .001, .20);
 		miniPID.setOutputLimits(.5);
 	}
-	
-	public void zeroYaw() {
-		ahrs.zeroYaw();
-	}
 
 	public void directDrive(double left, double right) {
 		rightFront.set(ControlMode.PercentOutput, -right);
 		leftFront.set(ControlMode.PercentOutput, left);
 	}
-	
-	public double getYaw() {
-		return ahrs.getYaw();
-	}
-	
+
 	public void rotate(double targetAngle, double power) {
-		if(targetAngle < 0)
+		if (targetAngle < 0)
 			directDrive(-power, power);
 		else
 			directDrive(power, -power);
 	}
-	
+
 	public void autoTurn() {
 		double output = miniPID.getOutput(getAngleCCW(), targetAngle);
 		directDrive(-output, output);
 	}
-	
+
 	public void driveStraight(double speed) {
 		double turnComp = miniPID.getOutput(getAngleCCW(), targetAngle);
 		directDrive(speed - turnComp, speed + turnComp);
 		System.out.println(ahrs.getDisplacementX() + ", " + ahrs.getDisplacementY() + ", " + ahrs.getDisplacementZ());
 	}
+
+	/*
+	 * public void driveSlow() { rightFront.configMotionAcceleration(arg0, 0); }
+	 */
 
 	public void initDefaultCommand() {
 	}
@@ -103,11 +99,11 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void setTargetAngle(double targetAngle) {
-	
+
 		this.targetAngle = targetAngle;
-		
+
 	}
-	
+
 	private double getAngleCCW() {
 		return -ahrs.getAngle();
 	}
