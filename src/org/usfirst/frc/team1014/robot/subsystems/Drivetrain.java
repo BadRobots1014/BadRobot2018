@@ -107,4 +107,8 @@ public class Drivetrain extends Subsystem {
 	private double getAngleCCW() {
 		return -ahrs.getAngle();
 	}
+	
+	public void zeroAHRS() {
+		ahrs.reset();
+	}
 }

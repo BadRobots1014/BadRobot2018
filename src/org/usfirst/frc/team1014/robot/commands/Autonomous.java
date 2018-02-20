@@ -11,6 +11,9 @@ public class Autonomous extends CommandGroup {	// NEED TO DETERMINE LEFT AND RIG
 	public Autonomous(Drivetrain driveTrain, Lifter lifter, Grabber grabber) {
 		//this.addSequential(new DriveStraightDistance(driveTrain, 40));
 		//this.addSequential(new Spin(driveTrain, 190));
-		this.addSequential(new AutoSwitchShortFromCenter(driveTrain, lifter, grabber, -1));
+		//this.addSequential(new AutoSwitchShortFromCenter(driveTrain, lifter, grabber, -1));
+		
+		this.addSequential(new Spin(driveTrain, 90)); //CCW
+		this.addSequential(new Spin(driveTrain, -90));	//CW
 	}
 }

@@ -14,7 +14,7 @@ public class AutoCentertoAB extends CommandGroup
 	 * 
 	 * 
 	 * @param drivetrain Drivetrain object
-	 * @param direction indicates direction(1 for A, -1 for B)
+	 * @param direction indicates direction(1 for A(left), -1 for B(right))
 	 * 
 	 * 
 	 */

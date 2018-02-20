@@ -14,9 +14,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Lifter extends Subsystem {
 
 	TalonSRX liftMotor;
+	DigitalInput topLimit, bottomLimit;
 
 	public Lifter() {
-
+		topLimit = new DigitalInput(0);
+		bottomLimit = new DigitalInput(1);
 		liftMotor = new TalonSRX(RobotMap.LIFT_1_ID);
 
 		BadLog.createTopic("Lift/Lifter Output Percent", BadLog.UNITLESS, () -> liftMotor.getMotorOutputPercent(),
@@ -27,9 +29,12 @@ public class Lifter extends Subsystem {
 
 		BadLog.createTopic("Lift/Lifter Voltage", "V", () -> liftMotor.getMotorOutputVoltage(), "hide",
 				"join:Lift/Output Voltages");
-		
-		/*liftMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 0);
-		liftMotor.configReverseSoftLimitEnable(true, 0);*/   //Needs to be tested
+
+		/*
+		 * liftMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
+		 * LimitSwitchNormal.NormallyClosed, 0);
+		 * liftMotor.configReverseSoftLimitEnable(true, 0);
+		 */ // Needs to be tested
 
 	}
 
@@ -39,9 +44,23 @@ public class Lifter extends Subsystem {
 	}
 
 	public void safeMove(double speed) {
-
+		if (speed > 0) {
+			if (isAtTop())
+				speed = 0;
+		} else {
+			if (isAtBottom())
+				speed = 0;
+		}
 		liftMotor.set(ControlMode.PercentOutput, speed);
 
+	}
+
+	public boolean isAtBottom() {
+		return bottomLimit.get();
+	}
+
+	public boolean isAtTop() {
+		return topLimit.get();
 	}
 
 	@Override
