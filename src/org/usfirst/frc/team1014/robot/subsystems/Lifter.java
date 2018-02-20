@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1014.robot.subsystems;
 
 import org.usfirst.frc.team1014.robot.RobotMap;
+import org.usfirst.frc.team1014.robot.util.LogUtil;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
@@ -14,12 +15,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Lifter extends Subsystem {
 
 	TalonSRX liftMotor;
-	DigitalInput topLimit, bottomLimit;
+
+	DigitalInput bottomLimitSwitch, topLimitSwitch;
 
 	public Lifter() {
-		topLimit = new DigitalInput(0);
-		bottomLimit = new DigitalInput(1);
+	
 		liftMotor = new TalonSRX(RobotMap.LIFT_1_ID);
+		bottomLimitSwitch = new DigitalInput(0);
+		topLimitSwitch = new DigitalInput(1);
 
 		BadLog.createTopic("Lift/Lifter Output Percent", BadLog.UNITLESS, () -> liftMotor.getMotorOutputPercent(),
 				"hide", "join:Lift/Output Percents");
@@ -30,12 +33,16 @@ public class Lifter extends Subsystem {
 		BadLog.createTopic("Lift/Lifter Voltage", "V", () -> liftMotor.getMotorOutputVoltage(), "hide",
 				"join:Lift/Output Voltages");
 
-		/*
-		 * liftMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
-		 * LimitSwitchNormal.NormallyClosed, 0);
-		 * liftMotor.configReverseSoftLimitEnable(true, 0);
-		 */ // Needs to be tested
+		BadLog.createTopicStr("Lift/Bottom Limit Switch", "bool", () -> LogUtil.fromBool(isAtBottom()));
+		BadLog.createTopicStr("Lift/Top Limit Switch", "bool", () -> LogUtil.fromBool(isAtTop()));
+	}
 
+	private boolean isAtTop() {
+		return topLimitSwitch.get();
+	}
+
+	private boolean isAtBottom() {
+		return !bottomLimitSwitch.get();
 	}
 
 	public void move(double speed) {
@@ -44,24 +51,17 @@ public class Lifter extends Subsystem {
 	}
 
 	public void safeMove(double speed) {
-		if (speed > 0) {
-			if (isAtTop())
+
+		if(speed < 0) {
+			if(isAtBottom())
 				speed = 0;
 		} else {
-			if (isAtBottom())
+			if(isAtTop())
 				speed = 0;
 		}
 		liftMotor.set(ControlMode.PercentOutput, speed);
-
 	}
 
-	public boolean isAtBottom() {
-		return bottomLimit.get();
-	}
-
-	public boolean isAtTop() {
-		return topLimit.get();
-	}
 
 	@Override
 	protected void initDefaultCommand() {
