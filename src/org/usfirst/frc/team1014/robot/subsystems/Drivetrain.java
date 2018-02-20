@@ -64,8 +64,8 @@ public class Drivetrain extends Subsystem {
 		miniPID.setOutputLimits(.5);
 	}
 	
-	public void zeroYaw() {
-		ahrs.zeroYaw();
+	public void resetAHRS() {
+		ahrs.reset();
 	}
 
 	public void directDrive(double left, double right) {

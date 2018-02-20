@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AutoRaiseScale extends Command{
 
-	private static final double TIME_US = 2000000; //Time value is currently incorrect. Needs to move 7 feet
+	private static final double TIME_US = 6000000;
 	
 	private Lifter lifter;
 	private double startTime_us, currentTime_us;
@@ -21,7 +21,7 @@ public class AutoRaiseScale extends Command{
 	}
 	
 	protected void execute() {
-		lifter.move(1);
+		lifter.safeMove(1);
 		currentTime_us = RobotController.getFPGATime();
 	}
 	

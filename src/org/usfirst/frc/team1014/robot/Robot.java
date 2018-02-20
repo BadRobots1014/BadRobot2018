@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
 
 	Teleop teleopCG;
 	Autonomous autoCG;
-	
+
 	private BadLog logger;
 	private long startTimeNS;
 	private long lastLog;
@@ -43,7 +43,8 @@ public class Robot extends TimedRobot {
 		logger = BadLog.init("/home/lvuser/log/" + session + ".bag");
 		{
 			BadLog.createValue("Start Time", LogUtil.getTimestamp());
-			BadLog.createValue("Event Name", Optional.ofNullable(DriverStation.getInstance().getEventName()).orElse(""));
+			BadLog.createValue("Event Name",
+					Optional.ofNullable(DriverStation.getInstance().getEventName()).orElse(""));
 			BadLog.createValue("Match Type", DriverStation.getInstance().getMatchType().toString());
 			BadLog.createValue("Match Number", "" + DriverStation.getInstance().getMatchNumber());
 			BadLog.createValue("Alliance", DriverStation.getInstance().getAlliance().toString());
@@ -63,7 +64,7 @@ public class Robot extends TimedRobot {
 
 			teleopCG = new Teleop(driveTrain, grabber, lifter);
 			autoCG = new Autonomous(driveTrain, lifter, grabber);
-		
+
 		}
 		logger.finishInitialization();
 	}
@@ -71,7 +72,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
-		
+
+		driveTrain.resetAHRS();
+
 		autoCG.start();
 	}
 
