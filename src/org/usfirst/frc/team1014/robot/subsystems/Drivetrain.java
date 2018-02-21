@@ -6,8 +6,10 @@ import org.usfirst.frc.team1014.robot.util.MiniPID;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import badlog.lib.BadLog;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -20,6 +22,7 @@ public class Drivetrain extends Subsystem {
 
 	private double targetAngle;
 	MiniPID miniPID;
+	double currentAngle;
 
 	public Drivetrain() {
 		rightFront = new TalonSRX(RobotMap.DRIVE_RIGHT_1_ID);
@@ -62,18 +65,14 @@ public class Drivetrain extends Subsystem {
 		targetAngle = 0;
 		miniPID = new MiniPID(.05, .001, .20);
 		miniPID.setOutputLimits(.5);
+		ahrs = new AHRS(Port.kMXP);
+		ahrs.zeroYaw();
 	}
 
-	public void directDrive(double left, double right) {
+	public void directDrive(double left, double right) 
+	{
 		rightFront.set(ControlMode.PercentOutput, -right);
 		leftFront.set(ControlMode.PercentOutput, left);
-	}
-
-	public void rotate(double targetAngle, double power) {
-		if (targetAngle < 0)
-			directDrive(-power, power);
-		else
-			directDrive(power, -power);
 	}
 
 	public void autoTurn() {
@@ -96,6 +95,20 @@ public class Drivetrain extends Subsystem {
 	public double getTargetAngle() {
 		return targetAngle;
 	}
+	
+	public int switchSide()
+	{
+		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R')
+			return 1;
+		return -1;
+	}
+	
+	public int scaleSide()
+	{
+		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'R')
+			return 1;
+		return -1;
+	}
 
 	public void setTargetAngle(double targetAngle) {
 
@@ -111,3 +124,4 @@ public class Drivetrain extends Subsystem {
 		ahrs.reset();
 	}
 }
+
