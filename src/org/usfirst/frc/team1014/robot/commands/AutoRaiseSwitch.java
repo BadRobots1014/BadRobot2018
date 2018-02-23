@@ -11,9 +11,16 @@ public class AutoRaiseSwitch extends Command{
 	
 	private Lifter lifter;
 	private double startTime_us, currentTime_us;
+	int direction;
 	
-	public AutoRaiseSwitch(Lifter lifter) {
+	/**
+	 * 
+	 * @param lifter
+	 * @param direction - 1 for up -1 for down
+	 */
+	public AutoRaiseSwitch(Lifter lifter, int direction) {
 		this.lifter = lifter;
+		this.direction = direction;
 	}
 	
 	protected void initialize() {
@@ -21,7 +28,7 @@ public class AutoRaiseSwitch extends Command{
 	}
 	
 	protected void execute() {
-		lifter.move(1);
+		lifter.move(direction * 1);
 		currentTime_us = RobotController.getFPGATime();
 	}
 	

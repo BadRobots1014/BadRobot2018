@@ -16,7 +16,7 @@ public class UseClimber extends Command{
 	}
 	
 	protected void execute() {
-		if(controller.getYButtonPressed()) {
+		if(controller.getYButtonPressed()) {	//Placeholder button is not yet decided
 			climber.climb(.5);
 		}
 	}

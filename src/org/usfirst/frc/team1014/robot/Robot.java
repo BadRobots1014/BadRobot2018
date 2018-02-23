@@ -4,9 +4,6 @@ import java.util.Optional;
 
 import org.usfirst.frc.team1014.robot.commands.Autonomous;
 import org.usfirst.frc.team1014.robot.commands.Teleop;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoRLScale;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoRLSwitch;
-import org.usfirst.frc.team1014.robot.commands.auto.AutoScaleC;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1014.robot.subsystems.Grabber;
 import org.usfirst.frc.team1014.robot.subsystems.Lifter;
@@ -43,10 +40,10 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Default program", new AutoRLScale(driveTrain, lifter, grabber, 0));
+		/*autoChooser.addDefault("Default program", new AutoRLScale(driveTrain, lifter, grabber, 0));
 		autoChooser.addObject("R, L, Scale", new AutoRLScale(driveTrain, lifter, grabber, 0));
 		autoChooser.addObject("R, L, Switch", new AutoRLSwitch(driveTrain, lifter, grabber, 0));
-		autoChooser.addObject("C, Scale", new AutoScaleC(driveTrain, 0));
+		autoChooser.addObject("C, Scale", new AutoScaleC(driveTrain, 0));*/
 		//autoChooser.addObject("C, Switch(short)", new AutoSwitchCShort(driveTrain, 0));
 		SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
 		startTimeNS = System.nanoTime();
@@ -85,8 +82,8 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
 		driveTrain.zeroAHRS();
-		autonomousCommand = (Command) autoChooser.getSelected();
-		autonomousCommand.start();
+		/*autonomousCommand = (Command) autoChooser.getSelected();
+		autonomousCommand.start();*/
 
 		autoCG.start();
 	}

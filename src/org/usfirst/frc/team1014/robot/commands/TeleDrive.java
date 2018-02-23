@@ -33,10 +33,17 @@ public class TeleDrive extends Command {
 	@Override
 	protected void execute() {
 		// Negative because top left is (-1,-1)
+		double left,right;
+		
+		if(controller.getBumper(Hand.kRight)) {
 
-		double left = -controller.getY(Hand.kLeft);
-		double right = -controller.getY(Hand.kRight);
-
+			right = controller.getY(Hand.kLeft);
+			left = controller.getY(Hand.kRight);
+		}else {
+		
+		left = -controller.getY(Hand.kLeft);
+		right = -controller.getY(Hand.kRight);
+		}
 		double scalar = controller1.getBButton() ? (1d / 3d) : 1;
 
 		left *= scalar;

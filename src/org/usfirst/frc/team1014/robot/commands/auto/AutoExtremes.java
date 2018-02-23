@@ -13,7 +13,7 @@ public class AutoExtremes extends CommandGroup{
 	 * @param driveTrain
 	 * @param side - 1 for R to A, -1 for L to B
 	 */
-	public AutoExtremes(Drivetrain driveTrain, int side) {
+	public AutoExtremes(Drivetrain driveTrain, int side) { //untested
 		this.addSequential(new DriveStraightDistance(driveTrain, 25));
 		this.addSequential(new Spin(driveTrain, side * 70));
 		this.addSequential(new DriveStraightDistance(driveTrain, 262.5));
