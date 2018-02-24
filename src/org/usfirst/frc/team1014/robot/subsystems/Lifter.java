@@ -47,13 +47,6 @@ public class Lifter extends Subsystem {
 	}
 
 	public void safeMove(double speed) {
-		if(speed < 0) {
-			if(isAtBottom())
-				speed = 0;
-		} else {
-			if(isAtTop())
-				speed = 0;
-		}
 		liftMotor.set(ControlMode.PercentOutput, speed);
 	}
 
