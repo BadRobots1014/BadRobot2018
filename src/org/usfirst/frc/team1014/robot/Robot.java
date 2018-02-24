@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
 
-		driveTrain.zeroAHRS();
+		driveTrain.resetAHRS();
 
 		autoCG.start();
 	}

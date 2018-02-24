@@ -65,6 +65,10 @@ public class Drivetrain extends Subsystem {
 		miniPID.setOutputLimits(.5);
 	}
 
+	public void resetPID() {
+		miniPID.reset();
+	}
+
 	public void resetAHRS() {
 		ahrs.reset();
 	}
@@ -113,11 +117,7 @@ public class Drivetrain extends Subsystem {
 
 	}
 
-	private double getAngleCCW() {
+	public double getAngleCCW() {
 		return -ahrs.getAngle();
-	}
-
-	public void zeroAHRS() {
-		ahrs.reset();
 	}
 }
