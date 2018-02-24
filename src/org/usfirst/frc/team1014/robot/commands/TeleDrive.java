@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TeleDrive extends Command {
 	private static final double DRIVE_STRAIGHT_TRIGGER_DEADZONE = .05;
+	private static final double DRIVE_STRAIGHT_TWEAK_DEADZONE = 0.1; // changing this changes logic below
 	private XboxController controller;
 	private Drivetrain driveTrain;
 	double targetAngle;
 	private XboxController controller1;
 
-	double slowedSpeedLeft, slowedSpeedRight;
+	double slowedSpeedLeft, slowedSpeedRight, slowedSpeedStraight;
 	private static final double SLOWED_SPEED_RATIO = 1d / 3d;
 	private final double SLOWED_SPEED_RAMP_RATE = .5;
 
@@ -29,7 +30,7 @@ public class TeleDrive extends Command {
 		this.controller1 = controller1;
 		requires(driveTrain);
 
-		slowedSpeedLeft = slowedSpeedRight = 0;
+		slowedSpeedLeft = slowedSpeedRight = slowedSpeedStraight = 0;
 		driveStraightOn = false;
 	}
 
@@ -45,6 +46,7 @@ public class TeleDrive extends Command {
 		double right = -controller.getY(Hand.kRight);
 
 		double drive_straight_force = controller.getTriggerAxis(Hand.kRight);
+		double drive_straight_tweak = right - left;
 
 		boolean invert = controller.getBumper(Hand.kLeft);
 
@@ -53,8 +55,26 @@ public class TeleDrive extends Command {
 				driveStraightOn = true;
 				driveTrain.resetPID();
 				driveTrain.setTargetAngle(driveTrain.getAngleCCW());
+				slowedSpeedStraight = drive_straight_force;
 			}
-			driveTrain.driveStraight(drive_straight_force * (invert ? -1 : 1));
+			if (Math.abs(drive_straight_tweak) > DRIVE_STRAIGHT_TWEAK_DEADZONE) {
+				// map left stick X values to {-1, 1} and adjust target angle accordingly
+				driveTrain.setTargetAngle(driveTrain.getTargetAngle() + (drive_straight_tweak * 0.5));
+			}
+			double speed = drive_straight_force * (invert ? -1 : 1);
+
+			if (controller1.getBButton()) {
+				speed *= SLOWED_SPEED_RATIO;
+
+				double speed_delta = speed - slowedSpeedStraight;
+				if (Math.abs(speed_delta) > SLOWED_SPEED_RAMP_RATE / 50d) {
+					speed_delta *= (SLOWED_SPEED_RAMP_RATE / 50d) / Math.abs(speed_delta);
+				}
+				slowedSpeedStraight += speed_delta;
+
+				speed = slowedSpeedStraight;
+			}
+			driveTrain.driveStraight(speed);
 		} else {
 			driveStraightOn = false;
 
