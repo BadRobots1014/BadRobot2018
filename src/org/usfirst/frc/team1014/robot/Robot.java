@@ -11,6 +11,7 @@ import org.usfirst.frc.team1014.robot.util.LogUtil;
 
 import badlog.lib.BadLog;
 import badlog.lib.DataInferMode;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -80,6 +81,7 @@ public class Robot extends TimedRobot {
 			teleopCG = new Teleop(driveTrain, grabber, lifter);
 			autoCG = new Autonomous(driveTrain, lifter, grabber);
 
+			CameraServer.getInstance().startAutomaticCapture();
 		}
 		logger.finishInitialization();
 	}
