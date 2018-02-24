@@ -14,16 +14,16 @@ public class AutoCentertoAB extends CommandGroup
 	 * 
 	 * 
 	 * @param drivetrain Drivetrain object
-	 * @param direction indicates direction(1 for A, -1 for B)
+	 * @param direction indicates direction(1 for A(left), -1 for B(right))
 	 * 
 	 * 
 	 */
 	public AutoCentertoAB(Drivetrain drivetrain, int direction)
 	{
 		this.addSequential(new DriveStraightDistance(drivetrain, 15.5)); 
-		this.addSequential(new Spin(drivetrain, 40 * direction));
+		this.addSequential(new Spin(drivetrain, (40 * direction)));
 		this.addSequential(new DriveStraightDistance(drivetrain, 150)); 
-		this.addSequential(new Spin(drivetrain, -40 * direction));
+		this.addSequential(new Spin(drivetrain, (-40 * direction)));
 				
 	}
 	

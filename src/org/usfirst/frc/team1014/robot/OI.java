@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1014.robot;
 
-import java.util.Optional;
-
 import edu.wpi.first.wpilibj.XboxController;
 
 
@@ -13,6 +11,7 @@ public class OI {
 		controller0 = new XboxController(0);
 
 		// TODO: Use DriverStation to auto detect
+
 		controller1 = new XboxController(1);
 			
 	

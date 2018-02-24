@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Lifter extends Subsystem {
 
 	TalonSRX liftMotor;
+
 	DigitalInput bottomLimitSwitch, topLimitSwitch;
 
 	public Lifter() {
+
 		liftMotor = new TalonSRX(RobotMap.LIFT_1_ID);
 		bottomLimitSwitch = new DigitalInput(0);
 		topLimitSwitch = new DigitalInput(1);
@@ -44,10 +46,6 @@ public class Lifter extends Subsystem {
 	public void move(double speed) {
 		liftMotor.set(ControlMode.PercentOutput, speed);
 
-	}
-
-	public void safeMove(double speed) {
-		liftMotor.set(ControlMode.PercentOutput, speed);
 	}
 
 	@Override

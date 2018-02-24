@@ -6,16 +6,15 @@ import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoCenterGoToC extends CommandGroup {
-	
+public class AutoRGoToC extends CommandGroup {
+
 	Drivetrain drivetrain;
-	
-	public AutoCenterGoToC() {
+
+	public AutoRGoToC() {
 		this.addSequential(new DriveStraightDistance(drivetrain, 25));
-		this.addSequential(new Spin(drivetrain, -49.5));
-		this.addSequential(new DriveStraightDistance(drivetrain, 82.5));
-		this.addSequential(new Spin(drivetrain, 49.5));
+		this.addSequential(new Spin(drivetrain, -79.69));
+		this.addSequential(new DriveStraightDistance(drivetrain, 279.51));
+		this.addSequential(new Spin(drivetrain, 79.69));
 		this.addSequential(new DriveStraightDistance(drivetrain, 25));
 	}
-	
 }

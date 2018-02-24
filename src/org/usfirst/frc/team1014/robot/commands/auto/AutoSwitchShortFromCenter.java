@@ -8,21 +8,18 @@ import org.usfirst.frc.team1014.robot.subsystems.Lifter;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoSwitchShortFromCenter extends CommandGroup{
-	
+public class AutoSwitchShortFromCenter extends CommandGroup {
+
 	/**
 	 * 
 	 * @param driveTrain
-	 * @param direction - -1 for left, 1 for right
+	 * @param direction
+	 *            - -1 for left, 1 for right
 	 */
-	public AutoSwitchShortFromCenter(Drivetrain driveTrain, Lifter lifter, Grabber grabber, int direction) { //Worked at past
+	public AutoSwitchShortFromCenter(Drivetrain driveTrain, Lifter lifter, Grabber grabber, int direction) {
 		this.addSequential(new AutoCentertoAB(driveTrain, direction));
+		this.addSequential(new DriveStraightDistance(driveTrain, 20));
 		this.addSequential(new Spin(driveTrain, 90 * direction));
-		this.addSequential(new DriveStraightDistance(driveTrain, 50));
-		this.addSequential(new Spin(driveTrain, 90 * direction));
-		this.addSequential(new AutoRaiseSwitch(lifter));
-		this.addSequential(new DriveStraightDistance(driveTrain, 10));
-		this.addSequential(new AutoRelease(grabber));
-
+		this.addSequential(new AutoMoveCloseSwitch(driveTrain, lifter, grabber));
 	}
 }

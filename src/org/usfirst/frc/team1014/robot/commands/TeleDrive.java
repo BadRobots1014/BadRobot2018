@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TeleDrive extends Command {
 	private XboxController controller;
 	private Drivetrain driveTrain;
-	boolean AButton;
 	double targetAngle;
 	private XboxController controller1;
 
@@ -32,7 +31,6 @@ public class TeleDrive extends Command {
 
 	@Override
 	protected void initialize() {
-		AButton = false;
 		targetAngle = 0;
 
 	}
