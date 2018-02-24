@@ -11,6 +11,7 @@ import org.usfirst.frc.team1014.robot.util.LogUtil;
 
 import badlog.lib.BadLog;
 import badlog.lib.DataInferMode;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -46,6 +47,9 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject("C, Scale", new AutoScaleC(driveTrain, 0));*/
 		//autoChooser.addObject("C, Switch(short)", new AutoSwitchCShort(driveTrain, 0));
 		SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
+		
+        CameraServer.getInstance().startAutomaticCapture();
+		
 		startTimeNS = System.nanoTime();
 		lastLog = System.currentTimeMillis();
 		String session = LogUtil.genSessionName();
