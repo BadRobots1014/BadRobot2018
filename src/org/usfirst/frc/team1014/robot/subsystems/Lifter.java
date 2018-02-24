@@ -4,8 +4,6 @@ import org.usfirst.frc.team1014.robot.RobotMap;
 import org.usfirst.frc.team1014.robot.util.LogUtil;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import badlog.lib.BadLog;
@@ -19,7 +17,7 @@ public class Lifter extends Subsystem {
 	DigitalInput bottomLimitSwitch, topLimitSwitch;
 
 	public Lifter() {
-	
+
 		liftMotor = new TalonSRX(RobotMap.LIFT_1_ID);
 		bottomLimitSwitch = new DigitalInput(0);
 		topLimitSwitch = new DigitalInput(1);
@@ -49,19 +47,6 @@ public class Lifter extends Subsystem {
 		liftMotor.set(ControlMode.PercentOutput, speed);
 
 	}
-
-	public void safeMove(double speed) {
-
-		/*if(speed < 0) {
-			if(isAtBottom())
-				speed = 0;
-		} else {
-			if(isAtTop())
-				speed = 0;
-		}*/
-		liftMotor.set(ControlMode.PercentOutput, speed);
-	}
-
 
 	@Override
 	protected void initDefaultCommand() {

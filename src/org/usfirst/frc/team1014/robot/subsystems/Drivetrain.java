@@ -6,11 +6,9 @@ import org.usfirst.frc.team1014.robot.util.MiniPID;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.Ultrasonic;
 
 import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -65,12 +63,13 @@ public class Drivetrain extends Subsystem {
 		targetAngle = 0;
 		miniPID = new MiniPID(.05, .001, .20);
 		miniPID.setOutputLimits(.5);
-		ahrs = new AHRS(Port.kMXP);
-		ahrs.zeroYaw();
 	}
 
-	public void directDrive(double left, double right) 
-	{
+	public void resetAHRS() {
+		ahrs.reset();
+	}
+
+	public void directDrive(double left, double right) {
 		rightFront.set(ControlMode.PercentOutput, -right);
 		leftFront.set(ControlMode.PercentOutput, left);
 	}
@@ -114,6 +113,7 @@ public class Drivetrain extends Subsystem {
 	public int getScaleSide()
 	{
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'R')
+
 			return 1;
 		return -1;
 	}
@@ -127,9 +127,8 @@ public class Drivetrain extends Subsystem {
 	private double getAngleCCW() {
 		return -ahrs.getAngle();
 	}
-	
+
 	public void zeroAHRS() {
 		ahrs.reset();
 	}
 }
-
