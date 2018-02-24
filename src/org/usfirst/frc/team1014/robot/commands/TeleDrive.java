@@ -46,15 +46,23 @@ public class TeleDrive extends Command {
 
 		double drive_straight_force = controller.getTriggerAxis(Hand.kRight);
 
+		boolean invert = controller.getBumper(Hand.kLeft);
+
 		if (Math.abs(drive_straight_force) > DRIVE_STRAIGHT_TRIGGER_DEADZONE) {
 			if (!driveStraightOn) {
 				driveStraightOn = true;
 				driveTrain.resetPID();
 				driveTrain.setTargetAngle(driveTrain.getAngleCCW());
 			}
-			driveTrain.driveStraight(drive_straight_force);
+			driveTrain.driveStraight(drive_straight_force * (invert ? -1 : 1));
 		} else {
 			driveStraightOn = false;
+
+			if (invert) {
+				double tmp = left;
+				left = -right;
+				right = -tmp;
+			}
 
 			if (controller1.getBButton()) {
 				left *= SLOWED_SPEED_RATIO;
