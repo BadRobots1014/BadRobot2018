@@ -10,6 +10,11 @@ public class Spin extends Command {
 	
 	long startTime;
 
+	/**
+	 * 
+	 * @param driveTrain
+	 * @param angle - negative angles turn CW   positive angles turn CCW
+	 */
 	public Spin(Drivetrain driveTrain, double angle) {
 		this.angle = angle;
 		requires(driveTrain);

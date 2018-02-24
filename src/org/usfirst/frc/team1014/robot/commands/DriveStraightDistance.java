@@ -13,6 +13,12 @@ public class DriveStraightDistance extends Command {
 
 	double linRegOffset = -2.4788;
 	double linRegScaler = 56.4918;
+	
+	/**
+	 * 
+	 * @param driveTrain 
+	 * @param distance - distance in inches
+	 */
 
 	public DriveStraightDistance(Drivetrain driveTrain, double distance) {
 		this.speed = .5;

@@ -14,6 +14,7 @@ import badlog.lib.DataInferMode;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,14 +29,28 @@ public class Robot extends TimedRobot {
 
 	Teleop teleopCG;
 	Autonomous autoCG;
-	
+
 	private BadLog logger;
 	private long startTimeNS;
 	private long lastLog;
+	Command autonomousCommand;
+	SendableChooser autoChooser;
 
 	@Override
 	public void robotInit() {
 
+		autoChooser = new SendableChooser();
+		/*
+		 * autoChooser.addDefault("Default program", new AutoRLScale(driveTrain, lifter,
+		 * grabber, 0)); autoChooser.addObject("R, L, Scale", new
+		 * AutoRLScale(driveTrain, lifter, grabber, 0));
+		 * autoChooser.addObject("R, L, Switch", new AutoRLSwitch(driveTrain, lifter,
+		 * grabber, 0)); autoChooser.addObject("C, Scale", new AutoScaleC(driveTrain,
+		 * 0));
+		 */
+		// autoChooser.addObject("C, Switch(short)", new AutoSwitchCShort(driveTrain,
+		// 0));
+		SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
 		startTimeNS = System.nanoTime();
 		lastLog = System.currentTimeMillis();
 		String session = LogUtil.genSessionName();
@@ -43,7 +58,8 @@ public class Robot extends TimedRobot {
 		logger = BadLog.init("/home/lvuser/log/" + session + ".bag");
 		{
 			BadLog.createValue("Start Time", LogUtil.getTimestamp());
-			BadLog.createValue("Event Name", Optional.ofNullable(DriverStation.getInstance().getEventName()).orElse(""));
+			BadLog.createValue("Event Name",
+					Optional.ofNullable(DriverStation.getInstance().getEventName()).orElse(""));
 			BadLog.createValue("Match Type", DriverStation.getInstance().getMatchType().toString());
 			BadLog.createValue("Match Number", "" + DriverStation.getInstance().getMatchNumber());
 			BadLog.createValue("Alliance", DriverStation.getInstance().getAlliance().toString());
@@ -63,7 +79,7 @@ public class Robot extends TimedRobot {
 
 			teleopCG = new Teleop(driveTrain, grabber, lifter);
 			autoCG = new Autonomous(driveTrain, lifter, grabber);
-		
+
 		}
 		logger.finishInitialization();
 	}
@@ -71,7 +87,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
-		
+
+		driveTrain.zeroAHRS();
+
 		autoCG.start();
 	}
 
@@ -99,6 +117,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+
 		periodic();
 	}
 

@@ -1,19 +1,18 @@
-package org.usfirst.frc.team1014.robot.commands.auto;
+package org.usfirst.frc.team1014.robot.commands;
 
-import org.usfirst.frc.team1014.robot.subsystems.Lifter;
+import org.usfirst.frc.team1014.robot.subsystems.Grabber;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AutoRaiseScale extends Command{
-
-	private static final double TIME_US = 2000000; //Time value is currently incorrect. Needs to move 7 feet
+public class AutoRelease extends Command{
+	private static final double TIME_US = 1000000; 
 	
-	private Lifter lifter;
+	private Grabber grabber;
 	private double startTime_us, currentTime_us;
 	
-	public AutoRaiseScale(Lifter lifter) {
-		this.lifter = lifter;
+	public AutoRelease(Grabber grabber) {
+		this.grabber = grabber;
 	}
 	
 	protected void initialize() {
@@ -21,17 +20,16 @@ public class AutoRaiseScale extends Command{
 	}
 	
 	protected void execute() {
-		lifter.move(1);
+		grabber.turnRelease(.6);
 		currentTime_us = RobotController.getFPGATime();
 	}
 	
 	protected void end() {
-		lifter.move(0);
+		grabber.turnRelease(0);
 	}
 	
 	@Override
 	protected boolean isFinished() {
 		return (currentTime_us - startTime_us) > TIME_US;
 	}
-
 }
