@@ -23,7 +23,7 @@ public class UseGrabber extends Command {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		if (controller.getBumper(Hand.kLeft)) {
+		if (controller.getTriggerAxis(Hand.kRight) > .3) {
 			// Collect cubes
 			grabber.turnCollect(1);
 			grabState = false;
