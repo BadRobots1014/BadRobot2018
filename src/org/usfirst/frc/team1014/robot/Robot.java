@@ -89,6 +89,7 @@ public class Robot extends TimedRobot {
 			teleopCG = new Teleop(driveTrain, grabber, lifter);
 			autoCG = new Autonomous(driveTrain, lifter, grabber);
 
+			CameraServer.getInstance().startAutomaticCapture();
 		}
 		logger.finishInitialization();
 	}
@@ -96,8 +97,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
-				
-		driveTrain.zeroAHRS();
+
+
+		driveTrain.resetAHRS();
 		//SmartDashboard.putData(autoChooser);
 		//autoCG.addSequential((Command) autoChooser.getSelected());
 		autoCG.start();
