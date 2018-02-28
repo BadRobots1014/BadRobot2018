@@ -4,6 +4,10 @@ import java.util.Optional;
 
 import org.usfirst.frc.team1014.robot.commands.Autonomous;
 import org.usfirst.frc.team1014.robot.commands.Teleop;
+import org.usfirst.frc.team1014.robot.commands.auto.StartCenterScale;
+import org.usfirst.frc.team1014.robot.commands.auto.StartCenterSwitch;
+import org.usfirst.frc.team1014.robot.commands.auto.StartLeft;
+import org.usfirst.frc.team1014.robot.commands.auto.StartRight;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1014.robot.subsystems.Grabber;
 import org.usfirst.frc.team1014.robot.subsystems.Lifter;
@@ -36,24 +40,25 @@ public class Robot extends TimedRobot {
 	private long lastLog;
 	Command autonomousCommand;
 	SendableChooser autoChooser;
+	int prohibit;
 
 	@Override
 	public void robotInit() {
 
 		autoChooser = new SendableChooser();
-		/*
-		 * autoChooser.addDefault("Default program", new AutoRLScale(driveTrain, lifter,
-		 * grabber, 0)); autoChooser.addObject("R, L, Scale", new
-		 * AutoRLScale(driveTrain, lifter, grabber, 0));
-		 * autoChooser.addObject("R, L, Switch", new AutoRLSwitch(driveTrain, lifter,
-		 * grabber, 0)); autoChooser.addObject("C, Scale", new AutoScaleC(driveTrain,
-		 * 0));
-		 */
-		// autoChooser.addObject("C, Switch(short)", new AutoSwitchCShort(driveTrain,
-		// 0));
+
+		autoChooser.addDefault("Default(Center Switch)", new StartCenterSwitch(driveTrain, lifter, grabber));
+		autoChooser.addObject("Right Side", new StartRight(driveTrain, lifter, grabber, 0));
+		autoChooser.addObject("Left Side", new StartLeft(driveTrain, lifter, grabber, 0));
+		autoChooser.addObject("Right Side No Switch", new StartRight(driveTrain, lifter, grabber, 1));
+		autoChooser.addObject("Left Side No Switch", new StartLeft(driveTrain, lifter, grabber, 1));
+		autoChooser.addObject("Right Side No Scale", new StartRight(driveTrain, lifter, grabber, 2));
+		autoChooser.addObject("Left Side No Scale", new StartLeft(driveTrain, lifter, grabber, 2));
+		autoChooser.addObject("Center Scale", new StartCenterScale(driveTrain, lifter, grabber));
+		
 		SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
 		
-        CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 		
 		startTimeNS = System.nanoTime();
 		lastLog = System.currentTimeMillis();
@@ -91,9 +96,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
-
+				
 		driveTrain.zeroAHRS();
-
+		//SmartDashboard.putData(autoChooser);
+		//autoCG.addSequential((Command) autoChooser.getSelected());
 		autoCG.start();
 	}
 

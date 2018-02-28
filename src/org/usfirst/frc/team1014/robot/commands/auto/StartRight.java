@@ -8,18 +8,27 @@ import org.usfirst.frc.team1014.robot.subsystems.Lifter;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class StartRight extends CommandGroup{
-	public StartRight(Drivetrain driveTrain, Lifter lifter, Grabber grabber) {
+	/**
+	 * 
+	 * @param driveTrain
+	 * @param lifter
+	 * @param grabber
+	 * @param prohibit - side to not do, 0 for scale, 1 for switch
+	 */
+	public StartRight(Drivetrain driveTrain, Lifter lifter, Grabber grabber, int prohibit) {
 		int switchSide = driveTrain.getSwitchSide();
 		int scaleSide = driveTrain.getScaleSide();
 		
-		if(scaleSide == 1) {
+		if(scaleSide == 1 && prohibit != 0) {
 			this.addSequential(new AutoRLScale(driveTrain, lifter, grabber, 1));
 		} 
-		else if(switchSide == 1) {
+		else if(switchSide == 1 && prohibit != 1) {
 			this.addSequential(new AutoRLSwitch(driveTrain, lifter, grabber, 1));
 		}
 		else {
 			this.addSequential(new DriveStraightDistance(driveTrain, 100));
 		}
+				
 	}
+
 }
