@@ -13,20 +13,20 @@ public class StartLeft extends CommandGroup{
 	 * @param driveTrain
 	 * @param lifter
 	 * @param grabber
-	 * @param prohibit - side to not do, 0 for none, 1 for switch, 2 for scale
+	 * @param prohibit - object to not do, 0 for none, 1 for switch, 2 for scale
+	 * @param scaleSide -    1 for right, -1 for left
+	 * @param switchSide -     1 for right, -1 for left
 	 */
-	public StartLeft(Drivetrain driveTrain, Lifter lifter, Grabber grabber, int prohibit) {
-		int switchSide = driveTrain.getSwitchSide();
-		int scaleSide = driveTrain.getScaleSide();
+	public StartLeft(Drivetrain driveTrain, Lifter lifter, Grabber grabber, int prohibit, int scaleSide, int switchSide) {
 		
-		if(scaleSide == -1 && prohibit != 0) {
+		if(scaleSide == -1 && prohibit != 2) {
 			this.addSequential(new AutoRLScale(driveTrain, lifter, grabber, -1));
 		} 
 		else if(switchSide == -1 && prohibit != 1) {
 			this.addSequential(new AutoRLSwitch(driveTrain, lifter, grabber, -1));
 		}
 		else {
-			this.addSequential(new DriveStraightDistance(driveTrain, 100));
+			this.addSequential(new DriveStraightDistance(driveTrain, 150));
 		}
 	}
 }

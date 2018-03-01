@@ -105,6 +105,7 @@ public class Drivetrain extends Subsystem {
 	 */
 	public int getSwitchSide()
 	{
+		
 		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R')
 			return 1;
 		return -1;
