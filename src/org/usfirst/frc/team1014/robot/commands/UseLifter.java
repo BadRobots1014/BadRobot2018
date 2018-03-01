@@ -19,6 +19,7 @@ public class UseLifter extends Command {
 
 	@Override
 	protected void execute() {
+
 		double speed = (controller.getBumper(Hand.kLeft) ? 1 : 0)
 				- (controller.getTriggerAxis(Hand.kLeft) > .5 ? 1 : 0);
 		lifter.move(speed);
