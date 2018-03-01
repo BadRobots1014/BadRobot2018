@@ -19,7 +19,10 @@ public class UseLifter extends Command {
 
 	@Override
 	protected void execute() {
-		lifter.safeMove(controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft));
+
+		double speed = (controller.getBumper(Hand.kLeft) ? 1 : 0)
+				- (controller.getTriggerAxis(Hand.kLeft) > .5 ? 1 : 0);
+		lifter.move(speed);
 	}
 
 	public UseLifter(XboxController controller, Lifter lifter) {

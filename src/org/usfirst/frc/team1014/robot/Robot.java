@@ -2,8 +2,14 @@ package org.usfirst.frc.team1014.robot;
 
 import java.util.Optional;
 
+import org.usfirst.frc.team1014.robot.commands.AutoDelay;
 import org.usfirst.frc.team1014.robot.commands.Autonomous;
 import org.usfirst.frc.team1014.robot.commands.Teleop;
+import org.usfirst.frc.team1014.robot.commands.auto.AutoMode;
+import org.usfirst.frc.team1014.robot.commands.auto.StartCenterScale;
+import org.usfirst.frc.team1014.robot.commands.auto.StartCenterSwitch;
+import org.usfirst.frc.team1014.robot.commands.auto.StartLeft;
+import org.usfirst.frc.team1014.robot.commands.auto.StartRight;
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1014.robot.subsystems.Grabber;
 import org.usfirst.frc.team1014.robot.subsystems.Lifter;
@@ -11,10 +17,10 @@ import org.usfirst.frc.team1014.robot.util.LogUtil;
 
 import badlog.lib.BadLog;
 import badlog.lib.DataInferMode;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,24 +39,11 @@ public class Robot extends TimedRobot {
 	private BadLog logger;
 	private long startTimeNS;
 	private long lastLog;
-	Command autonomousCommand;
+
 	SendableChooser autoChooser;
 
 	@Override
 	public void robotInit() {
-
-		autoChooser = new SendableChooser();
-		/*
-		 * autoChooser.addDefault("Default program", new AutoRLScale(driveTrain, lifter,
-		 * grabber, 0)); autoChooser.addObject("R, L, Scale", new
-		 * AutoRLScale(driveTrain, lifter, grabber, 0));
-		 * autoChooser.addObject("R, L, Switch", new AutoRLSwitch(driveTrain, lifter,
-		 * grabber, 0)); autoChooser.addObject("C, Scale", new AutoScaleC(driveTrain,
-		 * 0));
-		 */
-		// autoChooser.addObject("C, Switch(short)", new AutoSwitchCShort(driveTrain,
-		// 0));
-		SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
 		startTimeNS = System.nanoTime();
 		lastLog = System.currentTimeMillis();
 		String session = LogUtil.genSessionName();
@@ -80,6 +73,21 @@ public class Robot extends TimedRobot {
 			teleopCG = new Teleop(driveTrain, grabber, lifter);
 			autoCG = new Autonomous(driveTrain, lifter, grabber);
 
+			autoChooser = new SendableChooser();
+
+			autoChooser.addDefault("Center Switch", AutoMode.CENTER_SWITCH);
+			autoChooser.addObject("Right Side", AutoMode.RIGHT);
+			autoChooser.addObject("Left Side", AutoMode.LEFT);
+			autoChooser.addObject("Right Side No Switch", AutoMode.RIGHT_NO_SWITCH);
+			autoChooser.addObject("Left Side No Switch", AutoMode.LEFT_NO_SWITCH);
+			autoChooser.addObject("Right Side No Scale", AutoMode.RIGHT_NO_SCALE);
+			autoChooser.addObject("Left Side No Scale", AutoMode.LEFT_NO_SCALE);
+			autoChooser.addObject("Center Scale", AutoMode.CENTER_SCALE);
+
+			SmartDashboard.putNumber("Delay", 0);
+			SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
+			CameraServer.getInstance().startAutomaticCapture();
+
 		}
 		logger.finishInitialization();
 	}
@@ -88,7 +96,43 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
 
-		driveTrain.zeroAHRS();
+		driveTrain.resetAHRS();
+
+		autoCG.addSequential(new AutoDelay((int) SmartDashboard.getNumber("Delay", 0)));
+
+		switch ((AutoMode) autoChooser.getSelected()) {
+
+		case CENTER_SCALE:
+			autoCG.addSequential(new StartCenterScale(driveTrain, lifter, grabber));
+			break;
+		case RIGHT:
+			autoCG.addSequential(new StartRight(driveTrain, lifter, grabber, 0, driveTrain.getScaleSide(),
+					driveTrain.getSwitchSide()));
+			break;
+		case LEFT:
+			autoCG.addSequential(new StartLeft(driveTrain, lifter, grabber, 0, driveTrain.getScaleSide(),
+					driveTrain.getSwitchSide()));
+			break;
+		case RIGHT_NO_SCALE:
+			autoCG.addSequential(new StartRight(driveTrain, lifter, grabber, 2, driveTrain.getScaleSide(),
+					driveTrain.getSwitchSide()));
+			break;
+		case RIGHT_NO_SWITCH:
+			autoCG.addSequential(new StartRight(driveTrain, lifter, grabber, 1, driveTrain.getScaleSide(),
+					driveTrain.getSwitchSide()));
+			break;
+		case LEFT_NO_SCALE:
+			autoCG.addSequential(new StartLeft(driveTrain, lifter, grabber, 2, driveTrain.getScaleSide(),
+					driveTrain.getSwitchSide()));
+			break;
+		case LEFT_NO_SWITCH:
+			autoCG.addSequential(new StartLeft(driveTrain, lifter, grabber, 1, driveTrain.getScaleSide(),
+					driveTrain.getSwitchSide()));
+			break;
+		default: // Center Switch
+			autoCG.addSequential(new StartCenterSwitch(driveTrain, lifter, grabber));
+
+		}
 
 		autoCG.start();
 	}

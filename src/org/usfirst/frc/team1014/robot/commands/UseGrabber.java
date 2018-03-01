@@ -1,7 +1,10 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.subsystems.Grabber;
+import org.usfirst.frc.team1014.robot.util.LogUtil;
 
+import badlog.lib.BadLog;
+import badlog.lib.DataInferMode;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
@@ -23,7 +26,7 @@ public class UseGrabber extends Command {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		if (controller.getBumper(Hand.kLeft)) {
+		if (controller.getTriggerAxis(Hand.kRight) > .3) {
 			// Collect cubes
 			grabber.turnCollect(1);
 			grabState = false;
@@ -53,6 +56,8 @@ public class UseGrabber extends Command {
 		} else {
 			grabDown = false;
 		}
+
+		BadLog.publish("Grabber/Heartbeat", LogUtil.fromBool(grabState));
 	}
 
 	private boolean isGrabbing() {
@@ -63,6 +68,8 @@ public class UseGrabber extends Command {
 		requires(grabber);
 		this.controller = controller;
 		this.grabber = grabber;
+
+		BadLog.createTopicSubscriber("Grabber/Heartbeat", "bool", DataInferMode.DEFAULT);
 	}
 
 }

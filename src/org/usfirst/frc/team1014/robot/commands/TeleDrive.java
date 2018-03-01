@@ -1,7 +1,10 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1014.robot.util.LogUtil;
 
+import badlog.lib.BadLog;
+import badlog.lib.DataInferMode;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
@@ -11,14 +14,18 @@ import edu.wpi.first.wpilibj.command.Command;
  * An example command. You can replace me with your own command.
  */
 public class TeleDrive extends Command {
+	private static final double DRIVE_STRAIGHT_TRIGGER_DEADZONE = .05;
+	private static final double DRIVE_STRAIGHT_TWEAK_DEADZONE = 0.1; // changing this changes logic below
 	private XboxController controller;
 	private Drivetrain driveTrain;
 	double targetAngle;
 	private XboxController controller1;
 
-	double slowedSpeedLeft, slowedSpeedRight;
+	double slowedSpeedLeft, slowedSpeedRight, slowedSpeedStraight;
 	private static final double SLOWED_SPEED_RATIO = 1d / 3d;
 	private final double SLOWED_SPEED_RAMP_RATE = .5;
+
+	private boolean driveStraightOn;
 
 	public TeleDrive(Drivetrain driveTrain, XboxController controller0, XboxController controller1) {
 		this.driveTrain = driveTrain;
@@ -26,7 +33,12 @@ public class TeleDrive extends Command {
 		this.controller1 = controller1;
 		requires(driveTrain);
 
-		slowedSpeedLeft = slowedSpeedRight = 0;
+		slowedSpeedLeft = slowedSpeedRight = slowedSpeedStraight = 0;
+		driveStraightOn = false;
+
+		BadLog.createTopicSubscriber("Drivetrain/Safe Mode", "bool", DataInferMode.DEFAULT);
+		BadLog.createTopicSubscriber("Drivetrain/Straight Mode", "bool", DataInferMode.DEFAULT);
+		BadLog.createTopicSubscriber("Drivetrain/Inverted", "bool", DataInferMode.DEFAULT);
 	}
 
 	@Override
@@ -40,36 +52,89 @@ public class TeleDrive extends Command {
 		double left = -controller.getY(Hand.kLeft);
 		double right = -controller.getY(Hand.kRight);
 
-		if (controller1.getBButton()) {
-			left *= SLOWED_SPEED_RATIO;
-			right *= SLOWED_SPEED_RATIO;
+		double drive_straight_force = controller.getTriggerAxis(Hand.kRight);
+		double drive_straight_tweak = right - left;
 
-			double left_delta = left - slowedSpeedLeft;
-			if (Math.abs(left_delta) > SLOWED_SPEED_RAMP_RATE / 50d) {
-				left_delta *= (SLOWED_SPEED_RAMP_RATE / 50d) / Math.abs(left_delta);
+		boolean invert = controller.getBumper(Hand.kLeft);
+
+		BadLog.publish("Drivetrain/Inverted", LogUtil.fromBool(invert));
+
+		if (Math.abs(drive_straight_force) > DRIVE_STRAIGHT_TRIGGER_DEADZONE) {
+			if (!driveStraightOn) {
+				driveStraightOn = true;
+				driveTrain.resetPID();
+				driveTrain.setTargetAngle(driveTrain.getAngleCCW());
+				slowedSpeedStraight = drive_straight_force;
 			}
-			slowedSpeedLeft += left_delta;
-
-			double right_delta = right - slowedSpeedRight;
-			if (Math.abs(right_delta) > SLOWED_SPEED_RAMP_RATE / 50d) {
-				right_delta *= (SLOWED_SPEED_RAMP_RATE / 50d) / Math.abs(right_delta);
+			if (Math.abs(drive_straight_tweak) > DRIVE_STRAIGHT_TWEAK_DEADZONE) {
+				// map left stick X values to {-1, 1} and adjust target angle accordingly
+				driveTrain.setTargetAngle(driveTrain.getTargetAngle() + (drive_straight_tweak * 0.5));
 			}
-			slowedSpeedRight += right_delta;
+			double speed = drive_straight_force * (invert ? -1 : 1);
 
-			left = slowedSpeedLeft;
-			right = slowedSpeedRight;
+			if (controller1.getBButton()) {
+				speed *= SLOWED_SPEED_RATIO;
 
-			controller.setRumble(RumbleType.kLeftRumble, .5);
-			controller.setRumble(RumbleType.kRightRumble, .5);
+				double speed_delta = speed - slowedSpeedStraight;
+				if (Math.abs(speed_delta) > SLOWED_SPEED_RAMP_RATE / 50d) {
+					speed_delta *= (SLOWED_SPEED_RAMP_RATE / 50d) / Math.abs(speed_delta);
+				}
+				slowedSpeedStraight += speed_delta;
+
+				speed = slowedSpeedStraight;
+
+				BadLog.publish("Drivetrain/Safe Mode", LogUtil.fromBool(true));
+			} else {
+				BadLog.publish("Drivetrain/Safe Mode", LogUtil.fromBool(false));
+			}
+			driveTrain.driveStraight(speed);
+
+			BadLog.publish("Drivetrain/Straight Mode", LogUtil.fromBool(true));
 		} else {
-			slowedSpeedLeft = left;
-			slowedSpeedRight = right;
+			driveStraightOn = false;
 
-			controller.setRumble(RumbleType.kLeftRumble, 0);
-			controller.setRumble(RumbleType.kRightRumble, 0);
+			if (invert) {
+				double tmp = left;
+				left = -right;
+				right = -tmp;
+			}
+
+			if (controller1.getBButton()) {
+				left *= SLOWED_SPEED_RATIO;
+				right *= SLOWED_SPEED_RATIO;
+
+				double left_delta = left - slowedSpeedLeft;
+				if (Math.abs(left_delta) > SLOWED_SPEED_RAMP_RATE / 50d) {
+					left_delta *= (SLOWED_SPEED_RAMP_RATE / 50d) / Math.abs(left_delta);
+				}
+				slowedSpeedLeft += left_delta;
+
+				double right_delta = right - slowedSpeedRight;
+				if (Math.abs(right_delta) > SLOWED_SPEED_RAMP_RATE / 50d) {
+					right_delta *= (SLOWED_SPEED_RAMP_RATE / 50d) / Math.abs(right_delta);
+				}
+				slowedSpeedRight += right_delta;
+
+				left = slowedSpeedLeft;
+				right = slowedSpeedRight;
+
+				controller.setRumble(RumbleType.kLeftRumble, .5);
+				controller.setRumble(RumbleType.kRightRumble, .5);
+
+				BadLog.publish("Drivetrain/Safe Mode", LogUtil.fromBool(true));
+			} else {
+				slowedSpeedLeft = left;
+				slowedSpeedRight = right;
+
+				controller.setRumble(RumbleType.kLeftRumble, 0);
+				controller.setRumble(RumbleType.kRightRumble, 0);
+
+				BadLog.publish("Drivetrain/Safe Mode", LogUtil.fromBool(false));
+			}
+
+			driveTrain.directDrive(left, right);
+			BadLog.publish("Drivetrain/Straight Mode", LogUtil.fromBool(false));
 		}
-
-		driveTrain.directDrive(left, right);
 	}
 
 	@Override

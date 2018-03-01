@@ -65,6 +65,10 @@ public class Drivetrain extends Subsystem {
 		miniPID.setOutputLimits(.5);
 	}
 
+	public void resetPID() {
+		miniPID.reset();
+	}
+
 	public void resetAHRS() {
 		ahrs.reset();
 	}
@@ -94,15 +98,27 @@ public class Drivetrain extends Subsystem {
 	public double getTargetAngle() {
 		return targetAngle;
 	}
-
-	public int switchSide() {
-		if (DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R')
+	
+	/**
+	 * 
+	 * @return 1 for right, -1 for left
+	 */
+	public int getSwitchSide()
+	{
+		
+		if(DriverStation.getInstance().getGameSpecificMessage().charAt(0) == 'R')
 			return 1;
 		return -1;
 	}
+	
+	/**
+	 * 
+	 * @return 1 for right, -1 for left
+	 */
+	public int getScaleSide()
+	{
+		if(DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'R')
 
-	public int scaleSide() {
-		if (DriverStation.getInstance().getGameSpecificMessage().charAt(1) == 'R')
 			return 1;
 		return -1;
 	}
@@ -113,11 +129,7 @@ public class Drivetrain extends Subsystem {
 
 	}
 
-	private double getAngleCCW() {
+	public double getAngleCCW() {
 		return -ahrs.getAngle();
-	}
-
-	public void zeroAHRS() {
-		ahrs.reset();
 	}
 }
