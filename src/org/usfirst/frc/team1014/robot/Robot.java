@@ -35,23 +35,9 @@ public class Robot extends TimedRobot {
 	private long startTimeNS;
 	private long lastLog;
 	Command autonomousCommand;
-	SendableChooser autoChooser;
 
 	@Override
 	public void robotInit() {
-
-		autoChooser = new SendableChooser();
-		/*
-		 * autoChooser.addDefault("Default program", new AutoRLScale(driveTrain, lifter,
-		 * grabber, 0)); autoChooser.addObject("R, L, Scale", new
-		 * AutoRLScale(driveTrain, lifter, grabber, 0));
-		 * autoChooser.addObject("R, L, Switch", new AutoRLSwitch(driveTrain, lifter,
-		 * grabber, 0)); autoChooser.addObject("C, Scale", new AutoScaleC(driveTrain,
-		 * 0));
-		 */
-		// autoChooser.addObject("C, Switch(short)", new AutoSwitchCShort(driveTrain,
-		// 0));
-		SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
 		startTimeNS = System.nanoTime();
 		lastLog = System.currentTimeMillis();
 		String session = LogUtil.genSessionName();

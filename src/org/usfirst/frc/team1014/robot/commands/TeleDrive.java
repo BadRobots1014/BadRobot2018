@@ -1,7 +1,10 @@
 package org.usfirst.frc.team1014.robot.commands;
 
 import org.usfirst.frc.team1014.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1014.robot.util.LogUtil;
 
+import badlog.lib.BadLog;
+import badlog.lib.DataInferMode;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
@@ -32,6 +35,10 @@ public class TeleDrive extends Command {
 
 		slowedSpeedLeft = slowedSpeedRight = slowedSpeedStraight = 0;
 		driveStraightOn = false;
+
+		BadLog.createTopicSubscriber("Drivetrain/Safe Mode", "bool", DataInferMode.DEFAULT);
+		BadLog.createTopicSubscriber("Drivetrain/Straight Mode", "bool", DataInferMode.DEFAULT);
+		BadLog.createTopicSubscriber("Drivetrain/Inverted", "bool", DataInferMode.DEFAULT);
 	}
 
 	@Override
@@ -49,6 +56,8 @@ public class TeleDrive extends Command {
 		double drive_straight_tweak = right - left;
 
 		boolean invert = controller.getBumper(Hand.kLeft);
+
+		BadLog.publish("Drivetrain/Inverted", LogUtil.fromBool(invert));
 
 		if (Math.abs(drive_straight_force) > DRIVE_STRAIGHT_TRIGGER_DEADZONE) {
 			if (!driveStraightOn) {
@@ -73,8 +82,14 @@ public class TeleDrive extends Command {
 				slowedSpeedStraight += speed_delta;
 
 				speed = slowedSpeedStraight;
+
+				BadLog.publish("Drivetrain/Safe Mode", LogUtil.fromBool(true));
+			} else {
+				BadLog.publish("Drivetrain/Safe Mode", LogUtil.fromBool(false));
 			}
 			driveTrain.driveStraight(speed);
+
+			BadLog.publish("Drivetrain/Straight Mode", LogUtil.fromBool(true));
 		} else {
 			driveStraightOn = false;
 
@@ -105,15 +120,20 @@ public class TeleDrive extends Command {
 
 				controller.setRumble(RumbleType.kLeftRumble, .5);
 				controller.setRumble(RumbleType.kRightRumble, .5);
+
+				BadLog.publish("Drivetrain/Safe Mode", LogUtil.fromBool(true));
 			} else {
 				slowedSpeedLeft = left;
 				slowedSpeedRight = right;
 
 				controller.setRumble(RumbleType.kLeftRumble, 0);
 				controller.setRumble(RumbleType.kRightRumble, 0);
+
+				BadLog.publish("Drivetrain/Safe Mode", LogUtil.fromBool(false));
 			}
 
 			driveTrain.directDrive(left, right);
+			BadLog.publish("Drivetrain/Straight Mode", LogUtil.fromBool(false));
 		}
 	}
 
